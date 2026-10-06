@@ -68,9 +68,9 @@ function build(o,od,meta){
   text('Особенности комплектации',xC+6,hy,6,{b:true,caps:true,sp:.4});
   y+=hH;
   const monthTot=MON.map(()=>0); let grand=0;
+  const gRows=[];
   groups.forEach(G=>{
-    rect(M,y,CW,gH,C.sunk); line(M,y,M+CW,y,C.line,.4);
-    text(G.g,xM+6,y+gH/2+2.2,6.4,{b:true,caps:true,sp:.5}); y+=gH;
+    gRows.push([y,G.g]); y+=gH;   // строка категории рисуется после сетки — название идет поверх столбцов
     G.rows.forEach(r=>{
       const tot=r.q.reduce((a,b)=>a+b,0); grand+=tot; r.q.forEach((q,j)=>monthTot[j]+=q);
       if(tot)rect(M,y,CW,rH,C.hl);
@@ -88,6 +88,7 @@ function build(o,od,meta){
   const tb=ty+hH, te=y;
   for(let j=0;j<=12;j++)line(xMo+j*cMo,tb,xMo+j*cMo,te,j===0||j===12?C.line:C.lineL,j===0||j===12?.5:.35);
   line(xC,tb,xC,te,C.line,.5);
+  gRows.forEach(([gy,g])=>{rect(M,gy,CW,gH,C.sunk);line(M,gy,M+CW,gy,C.line,.4);text(g,xM+6,gy+gH/2+2.2,6.4,{b:true,caps:true,sp:.5})});
   /* total row */
   rect(M,y,CW,tH,C.ys); line(M,y,M+CW,y,C.y,.8);
   const ry=y+tH/2+2.5;

@@ -26,7 +26,7 @@ assets/js/deck.js            анкета PowerPoint (генерируется �
 assets/js/planpdf.js         план продаж PDF (свой генератор PDF со встроенным шрифтом)
 assets/data/regions.js       карта регионов России для блока «Регионы присутствия»
 assets/data/deck-assets.js   иллюстрация обложки и логотипы для анкеты
-assets/data/plan-pdf-assets.js  шрифт Liberation Sans (подмножество, SIL OFL 1.1) и логотипы для PDF
+assets/data/plan-pdf-assets.js  шрифты DIN Pro Light / Bold (подмножество символов) и логотипы для PDF
 assets/img/                  логотипы, иллюстрация шапки (hero.svg), фото техники, иконки
 Иллюстрации/11111м_СБ.ai     исходник иллюстрации (Illustrator), на сайт не загружается
 ```
@@ -48,3 +48,8 @@ assets/img/                  логотипы, иллюстрация шапки
 - Контакты (Честнов Б. М., +7 (981) 690-00-10, b.chestnov@baz.ru) указаны в `index.html` и `assets/js/app.js`.
 - После получения адреса сайта впишите полный адрес картинки превью в `index.html`, строка `og:image`:
   `https://ваш-адрес/assets/img/hero.jpg`.
+
+## Шрифты
+
+Анкета (.pptx) ссылается на DIN Pro Light и DIN Pro (Bold) — на компьютере без этих шрифтов PowerPoint подставит другой.
+В план продаж (.pdf) вшито подмножество DIN Pro Light / Bold. Исходные файлы DINPRO-*.OTF в репозиторий не загружаются (.gitignore).

@@ -3,7 +3,7 @@
 const BAZDeck=(function(){
 const IN=914400; let W=12192000, H=6858000;
 const C={gr:'444748',grd:'373A3B',bg:'F3F3F1',surf:'FFFFFF',sunk:'E9E9E6',ink:'1F2122',mut:'5B5F62',line:'D3D4D0',y:'FFCD1C',ys:'FFF4C9',acc:'7D6200',ong:'F3F3F1',ongm:'B9BCBD'};
-const FONT='Arial';
+const FONT='DIN Pro Light', FONT_B='DIN Pro';   // фирменный шрифт, как на сайте: DIN Pro Light для текста, DIN Pro Bold для жирного
 let X0, CW, CT, CB;
 /* page geometry: landscape 16:9 */
 function page(){
@@ -18,7 +18,7 @@ function b64(u){const s=atob(u.slice(u.indexOf(',')+1)),a=new Uint8Array(s.lengt
 
 /* ---------- text ---------- */
 function run(t,o={}){
-  return `<a:r><a:rPr lang="ru-RU" sz="${R((o.sz||12)*100)}" b="${o.b?1:0}"${o.i?' i="1"':''}${o.caps?' cap="all"':''}${o.spc?` spc="${o.spc}"`:''} dirty="0"><a:solidFill><a:srgbClr val="${o.color||C.ink}"/></a:solidFill><a:latin typeface="${FONT}"/><a:cs typeface="${FONT}"/></a:rPr><a:t>${XE(t)}</a:t></a:r>`;
+  return `<a:r><a:rPr lang="ru-RU" sz="${R((o.sz||12)*100)}" b="${o.b?1:0}"${o.i?' i="1"':''}${o.caps?' cap="all"':''}${o.spc?` spc="${o.spc}"`:''} dirty="0"><a:solidFill><a:srgbClr val="${o.color||C.ink}"/></a:solidFill><a:latin typeface="${o.b?FONT_B:FONT}"/><a:cs typeface="${o.b?FONT_B:FONT}"/></a:rPr><a:t>${XE(t)}</a:t></a:r>`;
 }
 function para(runs,o={}){
   const r=Array.isArray(runs)?runs.join(''):runs;
@@ -235,7 +235,7 @@ function pkg(D,M,title){
 function theme(){
   const clr=(n,c)=>`<a:${n}><a:srgbClr val="${c}"/></a:${n}>`;
   const sf='<a:solidFill><a:schemeClr val="phClr"/></a:solidFill>';
-  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="БАЗ"><a:themeElements><a:clrScheme name="БАЗ">${clr('dk1',C.ink)}${clr('lt1','FFFFFF')}${clr('dk2',C.grd)}${clr('lt2',C.bg)}${clr('accent1',C.y)}${clr('accent2',C.gr)}${clr('accent3',C.acc)}${clr('accent4',C.mut)}${clr('accent5',C.line)}${clr('accent6','2F7D4F')}${clr('hlink','1F5FBF')}${clr('folHlink','5B5F62')}</a:clrScheme><a:fontScheme name="БАЗ"><a:majorFont><a:latin typeface="${FONT}"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="${FONT}"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="БАЗ"><a:fillStyleLst>${sf}${sf}${sf}</a:fillStyleLst><a:lnStyleLst><a:ln w="9525">${sf}</a:ln><a:ln w="19050">${sf}</a:ln><a:ln w="28575">${sf}</a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst>${sf}${sf}${sf}</a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/></a:theme>`;
+  return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="БАЗ"><a:themeElements><a:clrScheme name="БАЗ">${clr('dk1',C.ink)}${clr('lt1','FFFFFF')}${clr('dk2',C.grd)}${clr('lt2',C.bg)}${clr('accent1',C.y)}${clr('accent2',C.gr)}${clr('accent3',C.acc)}${clr('accent4',C.mut)}${clr('accent5',C.line)}${clr('accent6','2F7D4F')}${clr('hlink','1F5FBF')}${clr('folHlink','5B5F62')}</a:clrScheme><a:fontScheme name="БАЗ"><a:majorFont><a:latin typeface="${FONT_B}"/><a:ea typeface=""/><a:cs typeface=""/></a:majorFont><a:minorFont><a:latin typeface="${FONT}"/><a:ea typeface=""/><a:cs typeface=""/></a:minorFont></a:fontScheme><a:fmtScheme name="БАЗ"><a:fillStyleLst>${sf}${sf}${sf}</a:fillStyleLst><a:lnStyleLst><a:ln w="9525">${sf}</a:ln><a:ln w="19050">${sf}</a:ln><a:ln w="28575">${sf}</a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst>${sf}${sf}${sf}</a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/></a:theme>`;
 }
 return {build};
 })();
