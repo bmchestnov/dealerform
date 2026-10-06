@@ -96,19 +96,24 @@ section.block{padding-block:44px}
 @media (max-width:860px){.about{grid-template-columns:1fr;gap:32px}.facts div{grid-template-columns:1fr;gap:4px}}
 #about p,#about dt,#about dd,#about li,#about h2,#about h3{color:var(--ink)}
 .facts .subs{margin:6px 0 0;padding-left:18px;display:grid;gap:2px}
-#about .lineup li{color:color-mix(in srgb,var(--ink) 72%,var(--bg))}
 .lineup-title{margin-top:64px;font-size:24px}
-.lineup{margin-top:24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
-.lineup article{display:grid;gap:10px;align-content:start;min-width:0}
-.lineup .pic{background:#f0f0f0;border-radius:var(--r);aspect-ratio:272/150;display:flex;align-items:center;justify-content:center;overflow:hidden;max-width:100%}
-.lineup .pic img{width:100%;height:100%;object-fit:contain}
-.lineup h3{font:700 18px var(--f-body);margin-top:6px}
-.lineup p{font-size:14.5px;color:var(--muted)}
-.lineup ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:6px;font-size:14px}
-.lineup li{padding-left:14px;position:relative}
-.lineup li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;background:var(--yellow);transform:skewX(-20deg)}
-@media (max-width:960px){.lineup{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:560px){.lineup{grid-template-columns:1fr}}
+/* «Модельный ряд»: photo carousel */
+.carousel{position:relative;margin-top:24px}
+.car-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;border-radius:var(--r);scrollbar-width:none;background:var(--graphite)}
+.car-track::-webkit-scrollbar{display:none}
+.car-track:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.car-slide{flex:0 0 100%;margin:0;position:relative;scroll-snap-align:start;aspect-ratio:16/8}
+.car-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.car-slide figcaption{position:absolute;left:0;bottom:24px;background:var(--graphite-d);color:var(--on-g);font:700 15px var(--f-body);letter-spacing:.06em;text-transform:uppercase;padding:10px 18px 10px 16px;border-left:5px solid var(--yellow)}
+.car-btn{position:absolute;top:calc(50% - 22px);transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:0;background:rgba(55,58,59,.82);display:grid;place-items:center;cursor:pointer;transition:background .15s}
+.car-btn:hover{background:var(--graphite-d)}
+.car-btn svg{width:24px;height:24px;fill:none;stroke:var(--yellow);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.car-btn.prev{left:16px}.car-btn.next{right:16px}
+.car-dots{display:flex;justify-content:center;gap:8px;margin-top:16px}
+.car-dots button{width:28px;height:4px;border:0;border-radius:2px;background:var(--line);padding:0;cursor:pointer;transition:background .2s,width .2s}
+.car-dots button.on{background:var(--yellow);width:44px}
+.car-dots button:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+@media (max-width:720px){.car-slide{aspect-ratio:4/3}.car-btn{width:40px;height:40px}.car-btn.prev{left:8px}.car-btn.next{right:8px}.car-slide figcaption{bottom:14px;font-size:13px;padding:8px 14px 8px 12px}}
 .offer{background:var(--sunk)}
 .offer-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .offer-grid div{background:var(--surface);padding:24px;display:grid;gap:8px;align-content:start}
