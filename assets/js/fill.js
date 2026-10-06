@@ -167,9 +167,9 @@ function checklist(o,od,photos,logo,meta){
     [L+(mc?'карта расположения':'Карта расположения компании'),false,photos['siteMap0'+t]?st('ok','Приложена'):st('no','Не приложена')],
     [L+(mc?'фото со стороны':'Фото центра со стороны'),false,photos['facade0'+t]?st('ok','Приложено'):st('no','Не приложено')]]});
   const showItems=SR.flatMap((h,j)=>{const t=j?'_'+j:'',nShow=[0,1,2].filter(i=>photos['showroom'+i+t]).length;return [
-    [(ms?`5. Шоурум ${j+1}: адрес`:'5. Адрес шоурума'),true,h.name?st('ok','Указан'):st('no','Не указан')],
-    [(ms?`5. Шоурум ${j+1}`:'5. Шоурум')+': площадь, зоны, стойка',false,(h.area||h.zones||h.desk)?((h.area&&h.zones&&h.desk)?st('ok','Заполнено'):st('mid','Частично')):st('no','Нет данных')],
-    [(ms?`5. Шоурум ${j+1}: фото`:'5. Фото шоурума'),false,nShow===3?st('ok','3 из 3'):nShow?st('mid',`${nShow} из 3`):st('no','Не приложены')]]});
+    [(ms?`5. Центр ${j+1}: адрес`:'5. Адрес центра'),true,h.name?st('ok','Указан'):st('no','Не указан')],
+    [(ms?`5. Центр ${j+1}`:'5. Оснащение')+': площадь, станции, выездной сервис',false,(h.area||h.zones||h.desk)?((h.area&&h.zones&&h.desk)?st('ok','Заполнено'):st('mid','Частично')):st('no','Нет данных')],
+    [(ms?`5. Центр ${j+1}: фото`:'5. Фото центра'),false,nShow===3?st('ok','3 из 3'):nShow?st('mid',`${nShow} из 3`):st('no','Не приложены')]]});
   const items=[
     ['Заявка: юрлицо, город, ИНН, контакты',true,st('ok','Заполнено')],
     ['1. Регионы присутствия',true,o.regions?st('ok',`Регионов: ${o.regions.split(';').filter(x=>x.trim()).length}`):st('no','Не выбраны')],
@@ -196,7 +196,7 @@ function checklist(o,od,photos,logo,meta){
   body+=para(`Заполнено пунктов: ${filled} из ${items.length}. Обязательные пункты отмечены звёздочкой.`,{color:'5B5F62',sz:18,after:0});
 
   body+=H('Данные компании');
-  const comp=[['Наименование юрлица',o.c_name],['Город',o.c_city],['Регионы присутствия',o.regions],['ИНН',o.c_inn],['Контактное лицо',o.c_person],['Телефон',o.c_phone],['E-mail',o.c_email],['Сайт',o.c_site],...C.flatMap((c,j)=>{const n=mc?' '+(j+1):'';return [[`Адрес дилерского центра${n}`,c.addr],[`Телефон центра${n}`,c.phone],[`E-mail центра${n}`,c.email],[`Ссылка на карту${n}`,c.link]]}),...SR.map((h,j)=>[`Адрес шоурума${ms?' '+(j+1):''}`,h.name])];
+  const comp=[['Наименование юрлица',o.c_name],['Город',o.c_city],['Регионы присутствия',o.regions],['ИНН',o.c_inn],['Контактное лицо',o.c_person],['Телефон',o.c_phone],['E-mail',o.c_email],['Сайт',o.c_site],...C.flatMap((c,j)=>{const n=mc?' '+(j+1):'';return [[`Адрес дилерского центра${n}`,c.addr],[`Телефон центра${n}`,c.phone],[`E-mail центра${n}`,c.email],[`Ссылка на карту${n}`,c.link]]}),...SR.map((h,j)=>[`Адрес центра (оснащение)${ms?' '+(j+1):''}`,h.name])];
   body+=table(comp.map(([k,x])=>tr([cell(k,3200,{fill:'F3F3F1',color:'5B5F62'}),cell(v(x),WT-3200,{b:true})])),[3200,WT-3200]);
 
   body+=H('Комплектность анкеты');

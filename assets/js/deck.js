@@ -149,7 +149,7 @@ function build(o,od,photos,meta){
    const kh=R(2.75*IN);
    kvGrid(s,X0,CT,CW,kh,[['Наименование юрлица',o.c_name],['Город',o.c_city],['ИНН',o.c_inn],['Контактное лицо',o.c_person],['Телефон',o.c_phone],['E-mail',o.c_email],['Сайт',o.c_site],['Дата заявки',meta.date]],4);
    const ty=CT+kh+R(.25*IN), th=CB-ty, tw=(CW-3*R(.2*IN))/4;
-   [['Регионов присутствия',String(nReg)],['Дилерских центров',String(C2.length)],['Шоурумов',String(SR.length)],[`План продаж ${meta.year}`,String(planTot),'шт.']].forEach(([l,val,sub],i)=>tile(s,X0+i*(tw+R(.2*IN)),ty,tw,th,l,val,sub));
+   [['Регионов присутствия',String(nReg)],['Дилерских центров',String(C2.length)],['Оснащение центров',String(SR.length)],[`План продаж ${meta.year}`,String(planTot),'шт.']].forEach(([l,val,sub],i)=>tile(s,X0+i*(tw+R(.2*IN)),ty,tw,th,l,val,sub));
   }
   /* 01 Регионы присутствия */
   {const s=add();frame(s,{num:'01',tag:'География',title:'Регионы присутствия',hint:'Регионы, где работает компания.'},fm);
@@ -183,12 +183,12 @@ function build(o,od,photos,meta){
     photo(s,X0,py,pw,ph,'Расположение компании на карте',photos['siteMap0'+t]);
     photo(s,X0+pw+R(.3*IN),py,pw,ph,'Фотография центра со стороны',photos['facade0'+t]);
   });
-  /* 05 Шоурум — one slide per showroom */
+  /* 05 Оснащение центра — one slide per entry */
   SR.forEach((h,j)=>{const t=j?'_'+j:'', s=add();
-    frame(s,{num:'05',tag:'Выставочный зал',title:'Шоурум'+(SR.length>1?` ${j+1}`:''),hint:'Общая информация о выставочном зале и фотографии.'},fm);
-    const kh=R(1.15*IN); kv(s,X0,CT,CW,kh,[['Адрес шоурума',h.name,2.6],['Площадь, м²',h.area,1],['Зон для демонстрации',h.zones,1.2],['Стойка регистрации',h.desk,1.1]]);
+    frame(s,{num:'05',tag:'Сервис',title:'Оснащение центра'+(SR.length>1?` ${j+1}`:''),hint:'Площадь, количество станций, выездной сервис и фотографии.'},fm);
+    const kh=R(1.15*IN); kv(s,X0,CT,CW,kh,[['Адрес центра',h.name,2.6],['Площадь, м²',h.area,1],['Количество станций',h.zones,1.2],['Выездной сервис',h.desk,1.1]]);
     const py=CT+kh+R(.25*IN), gap=R(.25*IN), pw=(CW-2*gap)/3, ph=CB-py;
-    [0,1,2].forEach(i=>photo(s,X0+i*(pw+gap),py,pw,ph,`Фото шоурума ${i+1}`,photos['showroom'+i+t]));
+    [0,1,2].forEach(i=>photo(s,X0+i*(pw+gap),py,pw,ph,`Фото центра ${i+1}`,photos['showroom'+i+t]));
   });
   /* 06 Маркетинг */
   {const rows=(o._mkt||[]).map(r=>[r.year,r.city,r.act]);
