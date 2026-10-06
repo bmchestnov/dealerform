@@ -114,6 +114,12 @@ function photo(s,x,y,w,h,label,p){ // caption + photo (cropped to fill) or an em
   if(p&&p.url){s.box({x:x-9525,y:py-9525,w:w+19050,h:ph+19050,fill:C.surf,line:C.line});s.pic(p.url,x,py,w,ph,p.w,p.h,'cover')}
   else s.box({x,y:py,w,h:ph,fill:C.sunk,line:C.line,dash:true,r:2500,anchor:'ctr',text:para(run('Фото не приложено',{sz:11,color:C.mut}),{algn:'ctr',sz:11})});
 }
+/* ряд только из приложенных фото: пустые места не рисуются; одно фото занимает половину ширины */
+function photoRow(s,x,y,w,h,items,gap){
+  const got=items.filter(([,p])=>p&&p.url); if(!got.length)return;
+  const pw=Math.min((w-gap*(got.length-1))/got.length,(w-gap)/2);
+  got.forEach(([label,p],i)=>photo(s,x+i*(pw+gap),y,pw,h,label,p));
+}
 function tile(s,x,y,w,h,label,value,sub){
   card(s,x,y,w,h);
   s.box({x,y,w:R(.07*IN),h,fill:C.y});
@@ -171,8 +177,9 @@ function build(o,od,photos,meta){
   /* 03 Ближайшие бренды в городе */
   {const rows=(o._comp||[]).map(r=>[r.name,r.addr]);
    chunk(rows,7).forEach((part,k)=>{const s=add();frame(s,{num:'03',tag:'Конкуренты',title:'Ближайшие бренды в городе'+(k?' (продолжение)':''),hint:'Дилерские центры других грузовых брендов рядом с кандидатом.'},fm);
-     if(k===0){const tw=R(6.9*IN);s.table(X0,CT,[tw*.4,tw*.6],['Название (бренд)','Адрес'],part.length?part:[['','']],{boldFirst:true});
-       photo(s,X0+tw+R(.3*IN),CT,CW-tw-R(.3*IN),CB-CT,'Расположение на карте других брендов',photos.compMap0)}
+     if(k===0){const map=photos.compMap0&&photos.compMap0.url, tw=map?R(6.9*IN):CW;
+       s.table(X0,CT,[tw*.4,tw*.6],['Название (бренд)','Адрес'],part.length?part:[['','']],{boldFirst:true});
+       if(map)photo(s,X0+tw+R(.3*IN),CT,CW-tw-R(.3*IN),CB-CT,'Расположение на карте других брендов',photos.compMap0)}
      else s.table(X0,CT,[CW*.35,CW*.65],['Название (бренд)','Адрес'],part,{boldFirst:true})});
   }
   /* 04 Территория центра — one slide per dealer centre */
@@ -180,16 +187,15 @@ function build(o,od,photos,meta){
     frame(s,{num:'04',tag:'Расположение',title:(c.type==='Офис'?'Офис':'Территория центра')+(C2.length>1?` ${j+1}`:''),hint:c.type==='Офис'?'Адрес и контакты офиса.':'Где находится центр и как он выглядит со стороны.'},fm);
     const kh=R(1.15*IN); kv(s,X0,CT,CW,kh,[['Тип объекта',c.type||'Дилерский центр',1.1],['Адрес',c.addr,2],['Телефон',c.phone,1.1],['E-mail',c.email,1.2],['Ссылка на карту',c.link,1.3]]);
     if(c.type==='Офис')return;   // у офиса фото не запрашиваются
-    const py=CT+kh+R(.25*IN), pw=(CW-R(.3*IN))/2, ph=CB-py;
-    photo(s,X0,py,pw,ph,'Расположение компании на карте',photos['siteMap0'+t]);
-    photo(s,X0+pw+R(.3*IN),py,pw,ph,'Фотография центра со стороны',photos['facade0'+t]);
+    const py=CT+kh+R(.25*IN);
+    photoRow(s,X0,py,CW,CB-py,[['Расположение компании на карте',photos['siteMap0'+t]],['Фотография центра со стороны',photos['facade0'+t]]],R(.3*IN));
   });
   /* 05 Оснащение центра — one slide per entry */
   SR.forEach((h,j)=>{const t=j?'_'+j:'', s=add();
     frame(s,{num:'05',tag:'Сервис',title:'Оснащение центра'+(SR.length>1?` ${j+1}`:''),hint:'Площадь, количество постов, выездной сервис, учебный класс и фотографии.'},fm);
     const kh=R(1.15*IN); kv(s,X0,CT,CW,kh,[['Адрес центра',h.name,2.4],['Площадь, м²',h.area,1],['Количество постов',h.zones,1.15],['Выездной сервис',h.desk,1.1],['Учебный класс',h.cls,1.1]]);
-    const py=CT+kh+R(.25*IN), gap=R(.25*IN), pw=(CW-2*gap)/3, ph=CB-py;
-    [0,1,2].forEach(i=>photo(s,X0+i*(pw+gap),py,pw,ph,`Фото центра ${i+1}`,photos['showroom'+i+t]));
+    const py=CT+kh+R(.25*IN);
+    photoRow(s,X0,py,CW,CB-py,[0,1,2].map(i=>[`Фото центра ${i+1}`,photos['showroom'+i+t]]).filter(([,p])=>p&&p.url).map(([,p],i)=>[`Фото центра ${i+1}`,p]),R(.25*IN));
   });
   /* 06 Маркетинг */
   {const rows=(o._mkt||[]).map(r=>[r.year,r.city,r.act]);
