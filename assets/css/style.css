@@ -103,7 +103,7 @@ section.block{padding-block:44px}
 .car-slide{position:absolute;top:50%;left:50%;width:var(--w);aspect-ratio:3/2;margin:0;border-radius:var(--r);overflow:hidden;background:var(--graphite);cursor:pointer;
   transform:translate(calc(-50% + var(--d,0) * 108%),-50%) scale(.86);opacity:0;visibility:hidden;transition:transform .6s cubic-bezier(.3,.7,.3,1),opacity .6s,visibility .6s,filter .6s;filter:brightness(.72)}
 .car-slide.v{opacity:1;visibility:visible}
-.car-slide.on{transform:translate(-50%,-50%) scale(1.12);filter:none;z-index:2;cursor:default;box-shadow:0 14px 32px rgba(0,0,0,.22)}
+.car-slide.on{transform:translate(-50%,-50%) scale(1.12);filter:none;z-index:2;cursor:default}
 .car-slide img{width:100%;height:100%;object-fit:cover;display:block}
 .car-btn{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:44px;height:44px;border-radius:50%;border:0;background:rgba(55,58,59,.85);display:grid;place-items:center;cursor:pointer;transition:background .15s}
 .car-btn:hover{background:var(--graphite-d)}
