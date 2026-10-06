@@ -33,6 +33,12 @@ assets/img/                  логотипы, иллюстрация шапки
 
 ## Публикация
 
+**Сейчас:** https://dealer-form.website.yandexcloud.net — бакет `dealer-form` в Yandex Object Storage.
+Каждый пуш в `main` выкладывает сайт в бакет автоматически (`.github/workflows/deploy-yandex.yml`, секреты `YC_KEY_ID` и `YC_SECRET_KEY`).
+Файлы, которых нет в репозитории, из бакета удаляются — вручную в бакет ничего не загружайте.
+
+### Другие варианты
+
 **GitHub Pages:** Settings → Pages → Deploy from a branch → `main` / `/ (root)`.
 Адрес: `https://<аккаунт>.github.io/dealerform/`.
 
