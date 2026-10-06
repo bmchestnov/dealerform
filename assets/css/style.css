@@ -165,7 +165,7 @@ section.block{padding-block:44px}
 
 fieldset{margin:0 0 24px;padding:28px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0;scroll-margin-top:16px}
 legend{float:left;width:100%;padding:0;margin-bottom:6px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
-legend .n{font:600 13px var(--f-mono);color:var(--accent-text)}
+legend .n{font:600 13px var(--f-mono);color:#FFCD1D}
 legend h3{font-size:21px}
 legend .slide{margin-left:auto;font:500 11px var(--f-mono);color:var(--muted);letter-spacing:.06em}
 .fs-hint{clear:both;color:var(--muted);font-size:14px;margin-bottom:20px;max-width:70ch}
