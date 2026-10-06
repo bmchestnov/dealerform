@@ -185,7 +185,7 @@ function build(o,od,photos,meta){
   /* 04 Территория центра — one slide per dealer centre */
   C2.forEach((c,j)=>{const t=j?'_'+j:'', s=add();
     frame(s,{num:'04',tag:'Расположение',title:(c.type==='Офис'?'Офис':'Территория центра')+(C2.length>1?` ${j+1}`:''),hint:c.type==='Офис'?'Адрес и контакты офиса.':'Где находится центр и как он выглядит со стороны.'},fm);
-    const kh=R(1.15*IN); kv(s,X0,CT,CW,kh,[['Тип объекта',c.type||'Дилерский центр',1.1],['Адрес',c.addr,2],['Телефон',c.phone,1.1],['E-mail',c.email,1.2],['Ссылка на карту',c.link,1.3]]);
+    const kh=R(1.15*IN); kv(s,X0,CT,CW,kh,[['Тип объекта',c.type||'Дилерский центр',1.1],['Адрес',c.addr,2],['Телефон',c.phone,1.1],['E-mail',c.email,1.2],['Яндекс Карты',c.link,1.3]]);
     if(c.type==='Офис')return;   // у офиса фото не запрашиваются
     const py=CT+kh+R(.25*IN);
     photoRow(s,X0,py,CW,CB-py,[['Расположение компании на карте',photos['siteMap0'+t]],['Фотография центра со стороны',photos['facade0'+t]]],R(.3*IN));
