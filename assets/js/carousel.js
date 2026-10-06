@@ -1,8 +1,8 @@
-/* Фото техники: 3 кадра в ряд, центральный крупнее; стрелки, свайп, клавиши, автопрокрутка каждые 3,5 с */
+/* Фото техники: 3 кадра в ряд, центральный крупнее; стрелки, свайп, клавиши, автопрокрутка каждые 2 с */
 (function(){
   const root=document.getElementById('lineup'); if(!root)return;
   const stage=root.querySelector('.car-stage'), slides=[...stage.children], n=slides.length;
-  const DELAY=3500, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DELAY=2000, reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   let cur=0, timer=null, visible=true, hover=false;
 
   function render(){
