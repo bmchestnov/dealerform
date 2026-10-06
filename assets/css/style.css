@@ -426,6 +426,7 @@ input[type=number]::-webkit-outer-spin-button,input[type=number]::-webkit-inner-
 .result .actions{display:flex;flex-wrap:wrap;gap:10px}
 .result pre{margin:0;background:var(--sunk);border-radius:var(--r);padding:16px;font:12.5px/1.5 ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;word-break:break-word}
 .toast{font-size:13px;color:var(--ok);min-height:1.2em}
+.files{grid-template-columns:repeat(2,minmax(0,1fr))}
 .toast.bad{color:var(--err)}
 details summary{cursor:pointer;font-size:14px;color:var(--muted)}
 footer.foot{border-top:1px solid var(--line);padding-block:28px;color:var(--muted);font-size:13px}

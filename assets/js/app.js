@@ -363,14 +363,14 @@ function save(kind){
 }
 /* all files in one .zip */
 async function saveZip(){
-  const list=['docx','pptx','planp'].map(k=>files[k]).filter(Boolean);
+  const list=['pptx','planp'].map(k=>files[k]).filter(Boolean);
   if(!list.length){toast('Файлы не собраны. Попробуйте сформировать файлы еще раз.',true);return}
   try{const z={};for(const f of list)z[f.name]=new Uint8Array(await f.blob.arrayBuffer());
     const name=`Заявка дилера — ${safe($('#c_name').value)}.zip`;download(BAZFill.zip(z),name);
     toast('Архив скачан: '+name+'. Он в папке «Загрузки».')}
   catch(e){console.error(e);toast('Не удалось собрать архив. Скачайте файлы по одному.',true)}
 }
-$('#dlP').onclick=()=>save('pptx');$('#dlPP').onclick=()=>save('planp');$('#dlC').onclick=()=>save('docx');$('#dlZip').onclick=saveZip;
+$('#dlP').onclick=()=>save('pptx');$('#dlPP').onclick=()=>save('planp');$('#dlZip').onclick=saveZip;
 $('#backEdit').onclick=()=>{$('#result').hidden=true;form.hidden=false;form.scrollIntoView()};
 
 form.addEventListener('submit',async e=>{
@@ -397,10 +397,8 @@ form.addEventListener('submit',async e=>{
   try{files.pptx={name:`Анкета кандидата — ${base}.pptx`,blob:new Blob([BAZDeck.build(Object.assign(o,{_regGroups:RMAP.fds.map(f=>({t:f.t,regions:f.regions.filter(n=>REG.has(n))}))}),od,Object.assign(pm,{regMapPng:await renderRegMap()}),{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),assets:window.BAZ_DECK_ASSETS}).bytes])}}catch(err){console.error(err);errs.push('анкета: '+(err&&err.message||err))}
   try{files.planp={name:`План продаж ${YEAR} — ${base}.pdf`,blob:new Blob([BAZPlanPdf.build(o,od,{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),assets:window.BAZ_PDF_ASSETS})],{type:'application/pdf'})}}catch(err){console.error(err);errs.push('план продаж (PDF): '+(err&&err.message||err))}
   const nm={p:`Анкета кандидата — ${base}.pptx`,pp:`План продаж ${YEAR} — ${base}.pdf`,c:`Чек-лист кандидата — ${base}.docx`};
-  try{files.docx={name:nm.c,blob:new Blob([BAZFill.checklist(o,od,pm,LOGO_K,{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),files:[nm.c,nm.p,nm.pp],email:'b.chestnov@baz.ru',manager:'Честнов Борис Михайлович',phone:'+7 (981) 690-00-10'})])}}catch(err){console.error(err);errs.push('чек-лист: '+(err&&err.message||err))}
   $('#fnP').textContent=files.pptx?files.pptx.name:'Анкета не собрана';
   $('#fnPP').textContent=files.planp?files.planp.name:'План продаж не собран';$('#dlPP').disabled=!files.planp;
-  $('#fnC').textContent=files.docx?files.docx.name:'Чек-лист не собран';$('#dlC').disabled=!files.docx;
   $('#dlP').disabled=!files.pptx;
   toast(errs.length?'Не удалось собрать файл ('+errs.join('; ')+'). Напишите нам: b.chestnov@baz.ru.':'',errs.length>0);
   btn.disabled=false;btn.textContent='Сформировать файлы';
