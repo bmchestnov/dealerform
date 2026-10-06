@@ -131,13 +131,14 @@
       <legend><span class="n">00</span><h3>Заявка<span class="req">*</span></h3><span class="slide">Данные компании</span></legend>
       <p class="fs-hint">Эти данные попадут на титульный слайд анкеты и в шапку плана продаж.</p>
       <div class="grid">
-        <div class="f full"><label for="c_name">Наименование юрлица<span class="req">*</span></label><input type="text" id="c_name" name="c_name" required placeholder="ООО «…»"><p class="dg-err" id="dg_name" hidden>Наименование юрлица не может состоять только из цифр.</p></div>
+        <div class="f"><label for="c_name">Наименование юрлица<span class="req">*</span></label><input type="text" id="c_name" name="c_name" required placeholder="ООО «…»"><p class="dg-err" id="dg_name" hidden>Наименование юрлица не может состоять только из цифр.</p></div>
         <div class="f"><label for="c_city">Город<span class="req">*</span></label><input type="text" id="c_city" name="c_city" required><p class="dg-err" id="dg_city" hidden>Название города не может состоять только из цифр.</p></div>
         <div class="f"><label for="c_inn">ИНН<span class="req">*</span></label><input type="text" id="c_inn" name="c_inn" required inputmode="numeric" data-pattern="^(\d{10}|\d{12})$" placeholder="10 или 12 цифр"></div>
-        <div class="f"><label for="c_person">Контактное лицо<span class="req">*</span></label><input type="text" id="c_person" name="c_person" required placeholder="ФИО, должность"></div>
+        <div class="f"><label for="c_site">Сайт</label><input type="url" id="c_site" name="c_site" placeholder="https://"></div>
+        <div class="f"><label for="c_person">Контактное лицо<span class="req">*</span></label><input type="text" id="c_person" name="c_person" required placeholder="ФИО"></div>
+        <div class="f"><label for="c_pos">Должность<span class="req">*</span></label><input type="text" id="c_pos" name="c_pos" required></div>
         <div class="f"><label for="c_phone">Телефон<span class="req">*</span></label><input type="tel" id="c_phone" name="c_phone" required></div>
         <div class="f"><label for="c_email">E-mail<span class="req">*</span></label><input type="email" id="c_email" name="c_email" required></div>
-        <div class="f"><label for="c_site">Сайт</label><input type="url" id="c_site" name="c_site" placeholder="https://"></div>
       </div>
     </fieldset>
 
@@ -180,7 +181,7 @@
 
     <fieldset id="s4">
       <legend><span class="n">05</span><h3>Оснащение центра</h3><span class="slide">Сервис</span></legend>
-      <p class="fs-hint">Площадь, количество станций, выездной сервис и до трех фотографий. Если центров несколько, добавьте каждый — в анкете для каждого будет свой слайд.</p>
+      <p class="fs-hint">Площадь, количество постов, выездной сервис и до трех фотографий. Если центров несколько, добавьте каждый — в анкете для каждого будет свой слайд.</p>
       <div class="reps" id="showrooms"></div>
       <div class="tbl-foot"><button type="button" class="btn-ghost" id="addShowroom">+ Добавить центр</button></div>
     </fieldset>

@@ -170,8 +170,8 @@ const REPS={
 <div class="grid"><div class="f"><span class="lbl">Расположение вашей компании на карте</span><span class="hint">Скриншот карты или спутникового снимка с отметкой.</span><div class="drop" data-photo="siteMap${s}" data-max="1"></div></div><div class="f"><span class="lbl">Фотография центра со стороны</span><span class="hint">Фасад и въезд, как видит клиент.</span><div class="drop" data-photo="facade${s}" data-max="1"></div></div></div>`},
   showroom:{box:'#showrooms',title:'Центр',ids:[],next:1,photos:['showroom'],
     html:s=>`<div class="grid"><div class="f full"><label for="h_name${s}">Адрес центра<span class="req">*</span></label><input type="text" id="h_name${s}" name="h_name${s}" required placeholder="Например: г. Сургут, ул. Индустриальная, 12"></div></div>
-<div class="grid c3"><div class="f"><label for="h_area${s}">Площадь, м²</label><input type="number" min="0" id="h_area${s}" name="h_area${s}"></div><div class="f"><label for="h_zones${s}">Количество станций</label><input type="number" min="0" id="h_zones${s}" name="h_zones${s}"></div><div class="f"><label for="h_desk${s}">Выездной сервис</label><select id="h_desk${s}" name="h_desk${s}"><option value="">Выберите</option><option>Есть</option><option>Нет</option></select></div></div>
-<div class="grid"><div class="f full"><span class="lbl">Фотографии центра</span><span class="hint">До трех фото: сервисная зона, станции, оборудование.</span><div class="drop" data-photo="showroom${s}" data-max="3"></div></div></div>`}
+<div class="grid c3"><div class="f"><label for="h_area${s}">Площадь, м²</label><input type="number" min="0" id="h_area${s}" name="h_area${s}"></div><div class="f"><label for="h_zones${s}">Количество постов</label><input type="number" min="0" id="h_zones${s}" name="h_zones${s}"></div><div class="f"><label for="h_desk${s}">Выездной сервис</label><select id="h_desk${s}" name="h_desk${s}"><option value="">Выберите</option><option>Есть</option><option>Нет</option></select></div></div>
+<div class="grid"><div class="f full"><span class="lbl">Фотографии центра</span><span class="hint">До трех фото: сервисная зона, посты, оборудование.</span><div class="drop" data-photo="showroom${s}" data-max="3"></div></div></div>`}
 };
 function relabel(kind){const R=REPS[kind];$$(`${R.box} .rep`).forEach((el,i)=>el.querySelector('.rep-head b').textContent=`${R.title} ${i+1}`)}
 function addRep(kind,id){
@@ -268,13 +268,13 @@ progress();
 function textSummary(o,od){
   const L=[];const p=(...a)=>L.push(a.join(''));
   p('ЗАЯВКА НА ЗАКЛЮЧЕНИЕ ДИЛЕРСКОГО СОГЛАШЕНИЯ С АО «РОМАНОВ»');
-  p(`${o.c_name}, ${o.c_city} · ИНН ${o.c_inn}`);p(`Контакт: ${o.c_person}, ${o.c_phone}, ${o.c_email}${o.c_site?', '+o.c_site:''}`);
+  p(`${o.c_name}, ${o.c_city} · ИНН ${o.c_inn}`);p(`Контакт: ${o.c_person}${o.c_pos?', '+o.c_pos:''}, ${o.c_phone}, ${o.c_email}${o.c_site?', '+o.c_site:''}`);
   p('\n1. РЕГИОНЫ ПРИСУТСТВИЯ');p(o.regions||'—');
   p('\n2. ПРОДАЖИ ПО ГОДАМ (2024 / 2025 / 2026 по н.в.)');o._sales.forEach(r=>p(`- ${r.brand||'—'}: ${r.y24||0} / ${r.y25||0} / ${r.y26||0}`));
   p('\n3. БЛИЖАЙШИЕ БРЕНДЫ В ГОРОДЕ');(o._comp.length?o._comp:[{}]).forEach(r=>p(`- ${r.name||'—'}${r.addr?' — '+r.addr:''}`));
   const C=o._centers||[], SR=o._showrooms||[];
   p(C.length>1?`\n4. ДИЛЕРСКИЕ ЦЕНТРЫ (${C.length})`:'\n4. ТЕРРИТОРИЯ ЦЕНТРА');C.forEach((c,i)=>{p(`${C.length>1?(i+1)+'. ':''}Адрес: ${c.addr||'—'}`);const ind=C.length>1?'   ':'';if(c.phone)p(`${ind}Телефон: ${c.phone}`);if(c.email)p(`${ind}E-mail: ${c.email}`);if(c.link)p(`${C.length>1?'   ':''}Карта: ${c.link}`)});
-  p(SR.length>1?`\n5. ОСНАЩЕНИЕ ЦЕНТРОВ (${SR.length})`:'\n5. ОСНАЩЕНИЕ ЦЕНТРА');SR.forEach((h,i)=>p(`${SR.length>1?(i+1)+'. ':''}Адрес: ${h.name||'—'}; площадь: ${h.area||'—'} м²; станций: ${h.zones||'—'}; выездной сервис: ${h.desk||'—'}`));
+  p(SR.length>1?`\n5. ОСНАЩЕНИЕ ЦЕНТРОВ (${SR.length})`:'\n5. ОСНАЩЕНИЕ ЦЕНТРА');SR.forEach((h,i)=>p(`${SR.length>1?(i+1)+'. ':''}Адрес: ${h.name||'—'}; площадь: ${h.area||'—'} м²; постов: ${h.zones||'—'}; выездной сервис: ${h.desk||'—'}`));
   p('\n6. МАРКЕТИНГ');(o._mkt.length?o._mkt:[{}]).forEach(r=>p(`- ${r.year?r.year+', ':''}${r.city||'—'}: ${r.act||'—'}`));
   p('\n7. КЛЮЧЕВЫЕ КЛИЕНТЫ (компания / срок сотрудничества / марка, модель / тип ТС / 2025 / 2026)');(o._cli.length?o._cli:[{}]).forEach(r=>p(`- ${[r.name,r.term,r.model,r.type,r.y25,r.y26].map(x=>x||'—').join(' / ')}`));
   p(`\n8. ПЛАН ПРОДАЖ ${YEAR}`);const lines=od.filter(r=>r.q.some(Boolean));
