@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" font-family="Roboto,'Helvetica Neue',Arial,sans-serif">
+<defs>
+<filter id="sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="2" stdDeviation="2.2" flood-color="#1f2122" flood-opacity=".28"/></filter>
+<clipPath id="mapc"><rect x="0" y="0" width="1200" height="760" rx="0"/></clipPath>
+<pattern id="gr" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#dfe4d6"/><line x1="0" y1="0" x2="0" y2="8" stroke="#d3dac7" stroke-width="3"/></pattern>
+</defs>
+<g clip-path="url(#mapc)">
+<rect width="1200" height="760" fill="#eeede8"/>
+<path d="M0 0 L260 0 C300 60 250 140 170 170 C110 195 40 160 0 190 Z" fill="url(#gr)"/>
+<path d="M980 0 L1200 0 L1200 260 C1120 280 1040 230 1010 170 C985 120 1010 60 980 0 Z" fill="url(#gr)"/>
+<path d="M0 560 C80 530 170 560 210 620 C240 670 200 730 160 760 L0 760 Z" fill="url(#gr)"/>
+<path d="M860 600 C930 560 1030 590 1060 650 C1080 700 1040 760 1000 760 L840 760 C820 700 820 640 860 600 Z" fill="url(#gr)"/>
+<path d="M520 120 C560 100 610 120 615 160 C620 200 575 215 540 205 C505 195 495 140 520 120 Z" fill="url(#gr)"/>
+<path d="M560 -20 C540 80 600 150 640 230 C690 330 610 400 600 470 C590 540 650 600 700 640 C760 690 820 720 860 790" fill="none" stroke="#c9d8dd" stroke-width="46" stroke-linecap="round"/>
+<path d="M640 230 C700 260 760 250 830 280 C880 300 920 340 990 350" fill="none" stroke="#c9d8dd" stroke-width="20" stroke-linecap="round"/>
+<path d="M660 600 C720 560 820 580 870 640 C910 690 900 760 900 760 L700 760 C650 720 630 640 660 600 Z" fill="#c9d8dd"/>
+<path d="M200 260 L560 220" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M330 360 L620 380" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M430 560 L700 520" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M820 200 L1100 220" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M870 470 L1060 300" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M180 620 L420 600" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M470 300 L520 560" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M960 420 L1150 470" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M40 330 L330 360" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M600 470 L780 470" fill="none" stroke="#dcdad3" stroke-width="7" stroke-linecap="round"/>
+<path d="M200 260 L560 220" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M330 360 L620 380" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M430 560 L700 520" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M820 200 L1100 220" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M870 470 L1060 300" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M180 620 L420 600" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M470 300 L520 560" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M960 420 L1150 470" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M40 330 L330 360" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M600 470 L780 470" fill="none" stroke="#fbfaf7" stroke-width="4" stroke-linecap="round"/>
+<path d="M-20 140 C150 150 300 190 420 260 C520 320 600 320 700 330 C820 340 940 380 1220 420" fill="none" stroke="#d6d3ca" stroke-width="14" stroke-linecap="round"/>
+<path d="M120 -20 C180 120 260 240 330 360 C390 460 420 560 430 780" fill="none" stroke="#d6d3ca" stroke-width="14" stroke-linecap="round"/>
+<path d="M-20 470 C200 470 380 450 520 440 C680 430 820 470 980 520 C1080 550 1150 600 1220 640" fill="none" stroke="#d6d3ca" stroke-width="14" stroke-linecap="round"/>
+<path d="M760 -20 C760 120 770 220 790 330 C810 440 860 560 960 780" fill="none" stroke="#d6d3ca" stroke-width="14" stroke-linecap="round"/>
+<path d="M300 760 C380 640 470 560 600 520" fill="none" stroke="#d6d3ca" stroke-width="14" stroke-linecap="round"/>
+<path d="M-20 140 C150 150 300 190 420 260 C520 320 600 320 700 330 C820 340 940 380 1220 420" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+<path d="M120 -20 C180 120 260 240 330 360 C390 460 420 560 430 780" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+<path d="M-20 470 C200 470 380 450 520 440 C680 430 820 470 980 520 C1080 550 1150 600 1220 640" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+<path d="M760 -20 C760 120 770 220 790 330 C810 440 860 560 960 780" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+<path d="M300 760 C380 640 470 560 600 520" fill="none" stroke="#ffffff" stroke-width="10" stroke-linecap="round"/>
+<text x="250" y="300" font-size="13" font-weight="600" letter-spacing="2.5" fill="#a5a7a2" text-anchor="middle">ЛЕНИНСКИЙ</text>
+<text x="360" y="520" font-size="13" font-weight="600" letter-spacing="2.5" fill="#a5a7a2" text-anchor="middle">СВЕРДЛОВСКИЙ</text>
+<text x="1085" y="350" font-size="13" font-weight="600" letter-spacing="2.5" fill="#a5a7a2" text-anchor="middle">ЗАРЕЧНЫЙ</text>
+<text x="940" y="460" font-size="13" font-weight="600" letter-spacing="2.5" fill="#a5a7a2" text-anchor="middle">ОКТЯБРЬСКИЙ</text>
+<text x="470" y="140" font-size="13" font-weight="600" letter-spacing="2.5" fill="#a5a7a2" text-anchor="middle">ПРОМЗОНА</text>
+<text x="120" y="690" font-size="13" font-weight="600" letter-spacing="2.5" fill="#a5a7a2" text-anchor="middle">ПРИГОРОД</text>
+<text x="610" y="455" font-size="12" font-style="italic" fill="#8fa9b1" transform="rotate(-68 610 455)">р. Река</text>
+<g filter="url(#sh)"><path d="M281.0 131 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="300" y="155" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">1</text></g>
+<circle cx="300" cy="175" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M411.0 201 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="430" y="225" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">2</text></g>
+<circle cx="430" cy="245" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M486.0 281 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="505" y="305" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">3</text></g>
+<circle cx="505" cy="325" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M156.0 181 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="175" y="205" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">4</text></g>
+<circle cx="175" cy="225" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M231.0 351 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="250" y="375" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">5</text></g>
+<circle cx="250" cy="395" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M671.0 256 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="690" y="280" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">6</text></g>
+<circle cx="690" cy="300" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M801.0 336 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="820" y="360" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">7</text></g>
+<circle cx="820" cy="380" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M851.0 256 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="870" y="280" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">8</text></g>
+<circle cx="870" cy="300" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M996.0 376 h38 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-11.0 l-8 10 l-8 -10 h-11.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="1015" y="400" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">9</text></g>
+<circle cx="1015" cy="420" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M702.0 426 h46 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-15.0 l-8 10 l-8 -10 h-15.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="725" y="450" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">10</text></g>
+<circle cx="725" cy="470" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M857.0 471 h46 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-15.0 l-8 10 l-8 -10 h-15.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="880" y="495" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">11</text></g>
+<circle cx="880" cy="515" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M372.0 426 h46 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-15.0 l-8 10 l-8 -10 h-15.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="395" y="450" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">12</text></g>
+<circle cx="395" cy="470" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M1057.0 516 h46 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-15.0 l-8 10 l-8 -10 h-15.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="1080" y="540" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">13</text></g>
+<circle cx="1080" cy="560" r="3.5" fill="#373a3b"/>
+<g filter="url(#sh)"><path d="M447.0 566 h46 a4 4 0 0 1 4 4 v26 a4 4 0 0 1 -4 4 h-15.0 l-8 10 l-8 -10 h-15.0 a4 4 0 0 1 -4 -4 v-26 a4 4 0 0 1 4 -4 z" fill="#ffcd1c" stroke="#c99f00" stroke-width="1"/>
+<text x="470" y="590" font-size="21" font-weight="700" fill="#1f2122" text-anchor="middle">14</text></g>
+<circle cx="470" cy="610" r="3.5" fill="#373a3b"/>
+</g>
+<g><rect x="24" y="22" width="402" height="44" rx="6" fill="#373a3b"/><rect x="24" y="22" width="6" height="44" fill="#ffcd1c"/>
+<text x="46" y="50" font-size="16" font-weight="700" fill="#ffcd1c" letter-spacing="1.5">ПРИМЕР</text><text x="128" y="50" font-size="16" font-weight="500" fill="#f3f3f1">Дилерские центры других брендов</text></g>
+<g filter="url(#sh)"><rect x="930" y="40" width="246" height="268" rx="6" fill="#ffffff"/></g>
+<rect x="930" y="40" width="246" height="4" fill="#ffcd1c"/>
+<text x="948" y="74" font-size="12" font-weight="700" letter-spacing="1.6" fill="#5b5f62">БРЕНД · НОМЕРА НА КАРТЕ</text>
+<line x1="948" y1="85" x2="1158" y2="85" stroke="#e9e9e6"/>
+<text x="948" y="106" font-size="16" font-weight="600" fill="#1f2122">КАМАЗ</text>
+<text x="1158" y="106" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">1, 2, 3</text>
+<line x1="948" y1="115" x2="1158" y2="115" stroke="#e9e9e6"/>
+<text x="948" y="136" font-size="16" font-weight="600" fill="#1f2122">Sitrak</text>
+<text x="1158" y="136" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">4, 5, 6</text>
+<line x1="948" y1="145" x2="1158" y2="145" stroke="#e9e9e6"/>
+<text x="948" y="166" font-size="16" font-weight="600" fill="#1f2122">Shacman</text>
+<text x="1158" y="166" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">7, 8</text>
+<line x1="948" y1="175" x2="1158" y2="175" stroke="#e9e9e6"/>
+<text x="948" y="196" font-size="16" font-weight="600" fill="#1f2122">FAW</text>
+<text x="1158" y="196" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">9</text>
+<line x1="948" y1="205" x2="1158" y2="205" stroke="#e9e9e6"/>
+<text x="948" y="226" font-size="16" font-weight="600" fill="#1f2122">MAN</text>
+<text x="1158" y="226" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">10, 11</text>
+<line x1="948" y1="235" x2="1158" y2="235" stroke="#e9e9e6"/>
+<text x="948" y="256" font-size="16" font-weight="600" fill="#1f2122">Scania</text>
+<text x="1158" y="256" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">12</text>
+<line x1="948" y1="265" x2="1158" y2="265" stroke="#e9e9e6"/>
+<text x="948" y="286" font-size="16" font-weight="600" fill="#1f2122">Dongfeng</text>
+<text x="1158" y="286" font-size="15" font-weight="700" fill="#7d6200" text-anchor="end">13, 14</text>
+<g transform="translate(40 712)"><rect x="0" y="0" width="120" height="6" fill="#373a3b"/><rect x="60" y="0" width="60" height="6" fill="#ffffff" stroke="#373a3b"/><text x="0" y="24" font-size="12" fill="#5b5f62">0</text><text x="120" y="24" font-size="12" fill="#5b5f62" text-anchor="end">2 км</text></g>
+</svg>

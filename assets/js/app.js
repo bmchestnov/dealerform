@@ -402,3 +402,16 @@ form.addEventListener('submit',async e=>{
   form.hidden=true;$('#result').hidden=false;$('#result').scrollIntoView({block:'start'});
 });
 })();
+
+/* ---------- просмотр примера поверх анкеты ---------- */
+(function(){
+  const lb=document.getElementById('lb'); if(!lb||!lb.showModal)return;   // без поддержки <dialog> ссылка просто откроет картинку
+  const img=lb.querySelector('img'), cap=lb.querySelector('.lb-cap');
+  document.addEventListener('click',e=>{
+    const a=e.target.closest('a[data-lb]'); if(!a)return;
+    e.preventDefault(); const i=a.querySelector('img');
+    img.src=a.getAttribute('href'); img.alt=i?i.alt:''; cap.textContent=a.dataset.lb||''; lb.showModal();
+  });
+  lb.querySelector('.lb-x').onclick=()=>lb.close();
+  lb.addEventListener('click',e=>{if(e.target===lb)lb.close()});   // клик по затемнению закрывает
+})();
