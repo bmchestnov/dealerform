@@ -96,7 +96,7 @@
   <div class="wrap">
     <div class="eyebrow">Анкета кандидата и план продаж</div>
     <h2>Заявка на заключение дилерского соглашения</h2>
-    <p>Заполните анкету о компании и план продаж техники БАЗ по месяцам. Фотографии желательны, но не обязательны. После проверки сайт соберет три файла в формате АО «Романов», их нужно отправить специалисту по работе с дилерами. Поля со звездочкой обязательны.</p>
+    <p>Заполните анкету о компании и план продаж техники БАЗ по месяцам. После проверки сайт соберет три файла в формате АО «Романов», их нужно отправить специалисту по работе с дилерами. Поля со звездочкой обязательны.</p>
     <div class="outputs"><span>Чек-лист кандидата · .docx</span><span>Анкета кандидата · .pptx</span><span>План продаж на 2026 год · .pdf</span></div>
   </div>
 </section>
@@ -115,7 +115,7 @@
     <div class="part">Продажи</div>
     <a href="#s7" data-s="s7" data-req="1"><span class="nm">8. План продаж 2026</span><span class="st"></span></a>
     <div class="part">Согласие</div>
-    <a href="#sx" data-s="sx" data-req="1"><span class="nm">Согласие</span><span class="st"></span></a>
+    <a href="#sx" data-s="sx" data-req="1"><span class="nm">Согласие на обработку данных</span><span class="st"></span></a>
     <div class="bar"><i id="bar"></i></div>
     <div class="pct" id="pct"></div>
     <a class="m-next" id="mNext" href="#s0" hidden></a>
@@ -174,16 +174,16 @@
 
     <fieldset id="s3">
       <legend><span class="n">04</span><h3>Территория центра</h3><span class="slide">Расположение</span></legend>
-      <p class="fs-hint">Где находится ваш центр и как он выглядит со стороны. Если дилерских центров несколько, добавьте каждый — в анкете для каждого будет свой слайд.</p>
+      <p class="fs-hint">Где находится ваш дилерский центр или офис и как он выглядит со стороны. Если объектов несколько, добавьте каждый — в анкете для каждого будет свой слайд.</p>
       <div class="reps" id="centers"></div>
-      <div class="tbl-foot"><button type="button" class="btn-ghost" id="addCenter">+ Добавить дилерский центр</button></div>
+      <div class="tbl-foot"><button type="button" class="btn-ghost" id="addCenter">+ Добавить дилерский центр или офис</button></div>
     </fieldset>
 
     <fieldset id="s4">
       <legend><span class="n">05</span><h3>Оснащение центра</h3><span class="slide">Сервис</span></legend>
-      <p class="fs-hint">Площадь, количество постов, выездной сервис и до трех фотографий. Если центров несколько, добавьте каждый — в анкете для каждого будет свой слайд.</p>
+      <p class="fs-hint">Площадь, количество постов, выездной сервис, учебный класс и до трех фотографий для каждого дилерского центра из блока 4. Чтобы добавить еще один центр, добавьте его в блоке 4 — здесь появится карточка для его оснащения.</p>
       <div class="reps" id="showrooms"></div>
-      <div class="tbl-foot"><button type="button" class="btn-ghost" id="addShowroom">+ Добавить центр</button></div>
+      <p class="eq-none" id="eqNone" hidden>В блоке 4 указаны только офисы. Оснащение заполняется для дилерских центров.</p>
     </fieldset>
 
     <fieldset id="s5">
@@ -224,7 +224,7 @@
     </fieldset>
 
     <fieldset id="sx">
-      <legend><span class="n">✓</span><h3>Согласие</h3></legend>
+      <legend><span class="n">✓</span><h3>Согласие на обработку данных</h3></legend>
       <div class="grid" style="clear:both">
         <label class="check full"><input type="checkbox" id="x_true" name="x_true" required> Подтверждаю, что сведения в анкете достоверны.<span class="req">*</span></label>
         <label class="check full"><input type="checkbox" id="x_pd" name="x_pd" required> Даю согласие АО «Романов» на обработку персональных данных контактных лиц для рассмотрения заявки.<span class="req">*</span></label>

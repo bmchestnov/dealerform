@@ -162,7 +162,8 @@ section.block{padding-block:44px}
 
 fieldset{margin:0 0 24px;padding:28px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);min-width:0;scroll-margin-top:16px}
 legend{float:left;width:100%;padding:0;margin-bottom:6px;display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
-legend .n{font:600 13px var(--f-mono);color:#FFCD1D}
+legend .n{font:700 20px var(--f-mono);line-height:1;color:#FFCD1D}
+#sx legend .n{font-size:26px;margin-top:-2px}
 legend h3{font-size:21px}
 legend .slide{margin-left:auto;font:500 11px var(--f-mono);color:var(--muted);letter-spacing:.06em}
 .fs-hint{clear:both;color:var(--muted);font-size:14px;margin-bottom:20px;max-width:70ch}
@@ -183,6 +184,7 @@ legend .slide{margin-left:auto;font:500 11px var(--f-mono);color:var(--muted);le
 input[type=text],input[type=email],input[type=tel],input[type=number],input[type=url],select,textarea{
   width:100%;font:15px var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-width:0}
 textarea{min-height:80px;resize:vertical}
+fieldset select{height:41px;padding-block:0}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--focus);outline-offset:0;border-color:transparent}
 .invalid input,.invalid select,.invalid textarea,input.invalid{border-color:var(--err)!important}
 .invalid .drop{border-color:var(--err)}
@@ -232,7 +234,11 @@ table.t td.act{width:1%;white-space:nowrap}
 .reps .rep:only-child{border:0;padding:0}
 .rep-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
 .rep-head b{font:600 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent-text)}
-.reps .rep:only-child .rep-head{display:none}
+.reps .rep:only-child .rep-head,#showrooms .rep.solo .rep-head{display:none}
+.eq-none{padding:16px 18px;border:1px dashed var(--line);border-radius:var(--r);color:var(--muted);font-size:14.5px}
+.rep-addr{margin-bottom:16px;display:grid;gap:4px}
+.rep-addr p{font-size:15px;font-weight:500;color:var(--ink)}
+.rep-addr p.empty{color:var(--muted);font-weight:400;font-style:italic}
 .rep .grid+.grid{margin-top:18px}
 .rep .grid.c3{align-items:end}
 .opt{font:400 12px var(--f-body);letter-spacing:0;text-transform:none;color:var(--muted)}
@@ -282,7 +288,15 @@ table.o thead th:last-child{border-top-right-radius:var(--r)}
 table.o th.m,table.o td.m{text-align:left;border-right:1px solid var(--line);padding:6px 10px}
 table.o td.m b{display:block;font-weight:600;font-size:13px}
 table.o td.m span{display:block;font-size:11px;color:var(--muted);line-height:1.35}
-table.o tr.grp td{background:var(--sunk);text-align:left;font:700 12px var(--f-body);letter-spacing:.04em;text-transform:uppercase;padding:8px 10px}
+table.o tr.grp td{background:var(--sunk);text-align:left;font:700 12px var(--f-body);letter-spacing:.04em;text-transform:uppercase;padding:0 10px}
+table.o tr.grp td.g-sum{text-align:right;font:600 12px var(--f-mono);letter-spacing:0;text-transform:none;color:var(--muted)}
+.g-tog{display:flex;align-items:center;gap:10px;width:100%;padding:9px 0;border:0;background:none;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--ink);cursor:pointer;text-align:left}
+.g-tog::before{content:"";width:7px;height:7px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s;flex:none}
+tr.shut .g-tog::before{transform:rotate(-45deg)}
+.g-tog .g-n{margin-left:auto;font:500 11px var(--f-mono);letter-spacing:0;text-transform:none;color:var(--muted)}
+.g-tog:hover{color:var(--accent-text)}
+.g-tog:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+table.o tr[hidden]{display:none!important}
 table.o input{width:100%;max-width:46px;padding:5px 0;text-align:center;font:13px var(--f-mono);border:1px solid var(--line);border-radius:4px;background:var(--bg);color:var(--ink)}
 table.o input:not(:placeholder-shown){background:var(--yellow-soft);border-color:var(--yellow)}
 table.o td.tot{font:600 13px var(--f-mono)}

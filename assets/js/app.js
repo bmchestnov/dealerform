@@ -34,15 +34,28 @@ ORDER[3][1].push(['БАЗ S32A50','3800 мм, ККС (без спального 
 const OROWS=[]; ORDER.forEach(([g,list])=>list.forEach(([m,d])=>OROWS.push({g,m,d,id:'o'+OROWS.length})));
 (function buildOrder(){
   let h=`<colgroup><col class="cm">${MONTHS.map(()=>'<col>').join('')}<col class="ct"></colgroup><thead><tr><th class="m">Модель и комплектация</th>${MONTHS.map(m=>`<th>${m}</th>`).join('')}<th>Итого</th></tr></thead><tbody>`;
-  ORDER.forEach(([g])=>{
-    h+=`<tr class="grp"><td class="m">${g}</td><td colspan="13"></td></tr>`;
+  ORDER.forEach(([g],gi)=>{
+    h+=`<tr class="grp" data-g="${gi}"><td class="m"><button type="button" class="g-tog" aria-expanded="true" aria-controls="order">${g}<span class="g-n">${OROWS.filter(r=>r.g===g).length} мод.</span></button></td><td colspan="13" class="g-sum" id="og_${gi}"></td></tr>`;
     OROWS.filter(r=>r.g===g).forEach(r=>{
-      h+=`<tr><td class="m"><b>${r.m}</b><span>${esc(r.d)}</span></td>${MONTHS.map((mm,j)=>`<td data-l="${mm}"><input type="number" min="0" inputmode="numeric" placeholder=" " id="${r.id}_${j}" name="${r.id}_${j}" aria-label="${r.m}, ${esc(r.d)}, ${mm}"></td>`).join('')}<td class="tot" data-l="Итого по модели" id="${r.id}_t">0</td></tr>`;
+      h+=`<tr data-gi="${gi}"><td class="m"><b>${r.m}</b><span>${esc(r.d)}</span></td>${MONTHS.map((mm,j)=>`<td data-l="${mm}"><input type="number" min="0" inputmode="numeric" placeholder=" " id="${r.id}_${j}" name="${r.id}_${j}" aria-label="${r.m}, ${esc(r.d)}, ${mm}"></td>`).join('')}<td class="tot" data-l="Итого по модели" id="${r.id}_t">0</td></tr>`;
     });
   });
   h+=`</tbody><tfoot><tr><td class="m">Всего по плану</td>${MONTHS.map((m,j)=>`<td data-l="${m}" id="om_${j}">0</td>`).join('')}<td data-l="Итого" id="om_t">0</td></tr></tfoot>`;
   $('#order').innerHTML=h;
 })();
+/* свернуть / развернуть категорию (шасси, тягач, бортовая платформа, самосвал) */
+const GKEY='baz-plan-groups';
+function setGroup(gi,open){
+  const tr=$(`#order tr.grp[data-g="${gi}"]`); if(!tr)return;
+  tr.classList.toggle('shut',!open); tr.querySelector('.g-tog').setAttribute('aria-expanded',open?'true':'false');
+  $$(`#order tr[data-gi="${gi}"]`).forEach(r=>r.hidden=!open);
+}
+$('#order').addEventListener('click',e=>{
+  const b=e.target.closest('.g-tog'); if(!b)return;
+  const gi=b.closest('tr').dataset.g, open=b.getAttribute('aria-expanded')!=='true'; setGroup(gi,open);
+  try{const st=JSON.parse(localStorage.getItem(GKEY)||'{}');st[gi]=open;localStorage.setItem(GKEY,JSON.stringify(st))}catch(_){}
+});
+try{const st=JSON.parse(localStorage.getItem(GKEY)||'{}');Object.keys(st).forEach(gi=>setGroup(gi,st[gi]))}catch(_){}
 /* Excel-like keyboard navigation in the plan grid */
 $('#order').addEventListener('keydown',e=>{
   const m=/^o(\d+)_(\d+)$/.exec(e.target.id||''); if(!m)return;
@@ -51,6 +64,8 @@ $('#order').addEventListener('keydown',e=>{
   if(k==='ArrowUp')r--; else if(k==='ArrowDown'||(k==='Enter'&&!e.shiftKey))r++; else if(k==='Enter'&&e.shiftKey)r--;
   else if(k==='ArrowLeft')j--; else if(k==='ArrowRight')j++; else return;
   e.preventDefault();
+  const step=r<+m[1]?-1:1;
+  while(r>=0&&r<OROWS.length&&$('#o'+r+'_0').closest('tr').hidden)r+=step;   // свернутые категории пропускаем
   if(r<0||r>=OROWS.length||j<0||j>=MONTHS.length)return;
   const next=$('#o'+r+'_'+j); next.focus(); next.select();
 });
@@ -70,6 +85,7 @@ $('#oUndoBtn').onclick=()=>{if(!oUndoData)return;$$('#order input').forEach((i,k
 function orderTotals(){
   const d=orderData(), mt=MONTHS.map(()=>0); let tot=0, models=0;
   d.forEach(r=>{const s=r.q.reduce((a,b)=>a+b,0);$('#'+r.id+'_t').textContent=s;const tr=$('#'+r.id+'_t').parentElement;tr.classList.toggle('has',s>0);tr.querySelector('td.m b').dataset.sum=s+' шт.';r.q.forEach((v,j)=>mt[j]+=v);tot+=s;if(s)models++});
+  ORDER.forEach(([g],gi)=>{const s=d.filter(r=>r.g===g).reduce((a,r)=>a+r.q.reduce((x,y)=>x+y,0),0);$('#og_'+gi).textContent=s?`Итого: ${s} шт.`:''});
   mt.forEach((v,j)=>$('#om_'+j).textContent=v);$('#om_t').textContent=tot;$('#oTotal').textContent=tot;$('#oModels').textContent=models;
   $('#oClear').disabled=!$$('#order input').some(i=>i.value!=='');
   return tot;
@@ -166,39 +182,73 @@ function regionsInit(){REG.clear();(regInput.value||'').split(';').map(x=>x.trim
 const sfx=id=>id?'_'+id:'';
 const REPS={
   center:{box:'#centers',title:'Дилерский центр',ids:[],next:1,photos:['siteMap','facade'],
-    html:s=>`<div class="grid"><div class="f full"><label for="t_addr${s}">Адрес дилерского центра<span class="req">*</span></label><input type="text" id="t_addr${s}" name="t_addr${s}" required></div><div class="f"><label for="t_phone${s}">Контактный телефон</label><input type="tel" id="t_phone${s}" name="t_phone${s}" placeholder="+7 (___) ___-__-__"></div><div class="f"><label for="t_email${s}">E-mail</label><input type="email" id="t_email${s}" name="t_email${s}" placeholder="name@company.ru"><span class="hint dg-err" id="t_email_err${s}" hidden>Проверьте адрес: должно быть вида name@company.ru</span></div><div class="f full"><label for="t_link${s}">Ссылка на точку в Яндекс Картах или 2ГИС</label><input type="url" id="t_link${s}" name="t_link${s}" placeholder="https://yandex.ru/maps/…"></div></div>
-<div class="grid"><div class="f"><span class="lbl">Расположение вашей компании на карте</span><span class="hint">Скриншот карты или спутникового снимка с отметкой.</span><div class="drop" data-photo="siteMap${s}" data-max="1"></div></div><div class="f"><span class="lbl">Фотография центра со стороны</span><span class="hint">Фасад и въезд, как видит клиент.</span><div class="drop" data-photo="facade${s}" data-max="1"></div></div></div>`},
-  showroom:{box:'#showrooms',title:'Центр',ids:[],next:1,photos:['showroom'],
-    html:s=>`<div class="grid"><div class="f full"><label for="h_name${s}">Адрес центра<span class="req">*</span></label><input type="text" id="h_name${s}" name="h_name${s}" required placeholder="Например: г. Сургут, ул. Индустриальная, 12"></div></div>
-<div class="grid c3"><div class="f"><label for="h_area${s}">Площадь, м²</label><input type="number" min="0" id="h_area${s}" name="h_area${s}"></div><div class="f"><label for="h_zones${s}">Количество постов</label><input type="number" min="0" id="h_zones${s}" name="h_zones${s}"></div><div class="f"><label for="h_desk${s}">Выездной сервис</label><select id="h_desk${s}" name="h_desk${s}"><option value="">Выберите</option><option>Есть</option><option>Нет</option></select></div></div>
+    html:s=>`<div class="grid"><div class="f"><label for="t_type${s}">Тип объекта<span class="req">*</span></label><select id="t_type${s}" name="t_type${s}"><option>Дилерский центр</option><option>Офис</option></select></div><div class="f"><label for="t_addr${s}">Адрес<span class="req">*</span></label><input type="text" id="t_addr${s}" name="t_addr${s}" required></div><div class="f"><label for="t_phone${s}">Контактный телефон</label><input type="tel" id="t_phone${s}" name="t_phone${s}" placeholder="+7 (___) ___-__-__"></div><div class="f"><label for="t_email${s}">E-mail</label><input type="email" id="t_email${s}" name="t_email${s}" placeholder="name@company.ru"><span class="hint dg-err" id="t_email_err${s}" hidden>Проверьте адрес: должно быть вида name@company.ru</span></div><div class="f full"><label for="t_link${s}">Ссылка на точку в Яндекс Картах или 2ГИС</label><input type="url" id="t_link${s}" name="t_link${s}" placeholder="https://yandex.ru/maps/…"></div></div>
+<div class="grid c-photos"><div class="f"><span class="lbl">Расположение вашей компании на карте</span><span class="hint">Скриншот карты или спутникового снимка с отметкой.</span><div class="drop" data-photo="siteMap${s}" data-max="1"></div></div><div class="f"><span class="lbl">Фотография центра со стороны</span><span class="hint">Фасад и въезд, как видит клиент.</span><div class="drop" data-photo="facade${s}" data-max="1"></div></div></div>`},
+  /* оснащение: одна карточка на каждый дилерский центр, адрес берется из блока 4 */
+  showroom:{box:'#showrooms',title:'Дилерский центр',ids:[],next:1,photos:['showroom'],fixed:true,
+    html:s=>`<div class="rep-addr"><span class="lbl">Адрес центра</span><p id="h_view${s}"></p><input type="hidden" id="h_name${s}" name="h_name${s}"></div>
+<div class="grid"><div class="f"><label for="h_area${s}">Площадь, м²<span class="req">*</span></label><input type="number" min="0" id="h_area${s}" name="h_area${s}" required></div><div class="f"><label for="h_zones${s}">Количество постов<span class="req">*</span></label><input type="number" min="0" id="h_zones${s}" name="h_zones${s}" required></div><div class="f"><label for="h_desk${s}">Выездной сервис<span class="req">*</span></label><select id="h_desk${s}" name="h_desk${s}" required><option value="">Выберите</option><option>Есть</option><option>Нет</option></select></div><div class="f"><label for="h_class${s}">Наличие учебного класса<span class="req">*</span></label><select id="h_class${s}" name="h_class${s}" required><option value="">Выберите</option><option>Есть</option><option>Нет</option></select></div></div>
 <div class="grid"><div class="f full"><span class="lbl">Фотографии центра</span><span class="hint">До трех фото: сервисная зона, посты, оборудование.</span><div class="drop" data-photo="showroom${s}" data-max="3"></div></div></div>`}
 };
-function relabel(kind){const R=REPS[kind];$$(`${R.box} .rep`).forEach((el,i)=>el.querySelector('.rep-head b').textContent=`${R.title} ${i+1}`)}
+const typeOf=id=>{const el=$('#t_type'+sfx(id));return el&&el.value==='Офис'?'Офис':'Дилерский центр'};
+const isOffice=id=>typeOf(id)==='Офис';
+const eqIds=()=>REPS.showroom.ids.filter(id=>!isOffice(id));   // оснащение — только у дилерских центров
+function relabel(kind){
+  if(kind==='center'){$$('#centers .rep').forEach((el,i)=>el.querySelector('.rep-head b').textContent=`${typeOf(+el.dataset.id)} ${i+1}`);return}
+  let n=0;$$('#showrooms .rep').forEach(el=>{if(!el.hidden)el.querySelector('.rep-head b').textContent=`Дилерский центр ${++n}`});
+}
+/* офис: карточка оснащения скрыта, ее поля не проверяются */
+function syncType(id){
+  const s=sfx(id), el=$(`#showrooms .rep[data-id="${id}"]`), off=isOffice(id), ph=$(`#centers .rep[data-id="${id}"] .c-photos`);
+  if(ph)ph.hidden=off;   // у офиса фото карты и фасада не нужны
+  if(!el)return;
+  el.hidden=off; el.querySelectorAll('input,select').forEach(i=>i.disabled=off);
+  const vis=$$('#showrooms .rep').filter(r=>!r.hidden);
+  $$('#showrooms .rep').forEach(r=>r.classList.toggle('solo',!r.hidden&&vis.length===1));
+  $('#eqNone').hidden=vis.length>0;
+  relabel('center');relabel('showroom');
+}
 function addRep(kind,id){
   const R=REPS[kind]; if(id==null)id=R.next; R.next=Math.max(R.next,id+1);
   const s=sfx(id), el=document.createElement('div'); el.className='rep'; el.dataset.id=id;
-  el.innerHTML=`<div class="rep-head"><b></b><button type="button" class="btn-x">Удалить</button></div>${R.html(s)}`;
-  el.querySelector('.rep-head .btn-x').onclick=()=>{
+  el.innerHTML=`<div class="rep-head"><b></b>${R.fixed?'':'<button type="button" class="btn-x">Удалить</button>'}</div>${R.html(s)}`;
+  if(!R.fixed)el.querySelector('.rep-head .btn-x').onclick=()=>{
     if(R.ids.length<=1)return;
-    R.photos.forEach(k=>delete PHOTOS[k+s]); R.ids=R.ids.filter(x=>x!==id); el.remove(); relabel(kind); changed();
+    removeRep(kind,id);
+    if(kind==='center'){removeRep('showroom',id);REPS.center.ids.forEach(syncType)}   // вместе с центром удаляется и его оснащение
+    changed();
   };
   $(R.box).appendChild(el); el.querySelectorAll('.drop').forEach(setupDrop); R.ids.push(id); relabel(kind);
+  if(kind==='center'){
+    if(!REPS.showroom.ids.includes(id))addRep('showroom',id);   // у каждого центра своя карточка оснащения
+    $('#t_addr'+s).addEventListener('input',()=>syncAddr(id));
+    $('#t_type'+s).addEventListener('change',()=>{syncType(id);changed()});
+  }
   return el;
 }
+function removeRep(kind,id){
+  const R=REPS[kind], s=sfx(id), el=$(`${R.box} .rep[data-id="${id}"]`);
+  R.photos.forEach(k=>delete PHOTOS[k+s]); R.ids=R.ids.filter(x=>x!==id); if(el)el.remove(); relabel(kind);
+}
+/* адрес центра из блока 4 показывается в карточке оснащения */
+function syncAddr(id){
+  const s=sfx(id), a=$('#t_addr'+s), v=$('#h_view'+s), h=$('#h_name'+s); if(!a||!v||!h)return;
+  const t=a.value.trim(); h.value=t; v.textContent=t||'Укажите адрес в блоке 4 «Территория центра»'; v.classList.toggle('empty',!t);
+}
 $('#addCenter').onclick=()=>{const el=addRep('center');changed();el.querySelector('input').focus()};
-$('#addShowroom').onclick=()=>{const el=addRep('showroom');changed();el.querySelector('input').focus()};
-function centersData(o){return REPS.center.ids.map(id=>{const s=sfx(id);return {addr:o['t_addr'+s]||'',phone:o['t_phone'+s]||'',email:o['t_email'+s]||'',link:o['t_link'+s]||'',siteMap:(PHOTOS['siteMap'+s]||[])[0]||null,facade:(PHOTOS['facade'+s]||[])[0]||null}})}
-function showroomsData(o){return REPS.showroom.ids.map(id=>{const s=sfx(id);return {name:o['h_name'+s]||'',area:o['h_area'+s]||'',zones:o['h_zones'+s]||'',desk:o['h_desk'+s]||'',photos:(PHOTOS['showroom'+s]||[]).slice()}})}
+function centersData(o){return REPS.center.ids.map(id=>{const s=sfx(id);return {type:typeOf(id),addr:o['t_addr'+s]||'',phone:o['t_phone'+s]||'',email:o['t_email'+s]||'',link:o['t_link'+s]||'',siteMap:isOffice(id)?null:(PHOTOS['siteMap'+s]||[])[0]||null,facade:isOffice(id)?null:(PHOTOS['facade'+s]||[])[0]||null}})}
+function showroomsData(o){return eqIds().map(id=>{const s=sfx(id);return {name:o['h_name'+s]||'',area:o['h_area'+s]||'',zones:o['h_zones'+s]||'',desk:o['h_desk'+s]||'',cls:o['h_class'+s]||'',photos:(PHOTOS['showroom'+s]||[]).slice()}})}
 
 let saved=null; try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){}
-['center','showroom'].forEach(k=>{const ids=saved&&saved._reps&&Array.isArray(saved._reps[k])&&saved._reps[k].length?saved._reps[k]:[0];ids.forEach(id=>addRep(k,+id||0))});
+{const ids=saved&&saved._reps&&Array.isArray(saved._reps.center)&&saved._reps.center.length?saved._reps.center:[0];ids.forEach(id=>addRep('center',+id||0))}
 Object.keys(TABLES).forEach(k=>{const r=saved&&saved['_'+k]&&saved['_'+k].length?saved['_'+k]:[];const n=Math.max(r.length,TABLES[k].start);for(let i=0;i<n;i++)addRow(k,r[i]||{})});
 if(saved)form.querySelectorAll('input[name],select[name],textarea[name]').forEach(el=>{const v=saved[el.name];if(v==null)return;if(el.type==='radio'||el.classList.contains('xr'))el.checked=v===el.value;else if(el.type==='checkbox')el.checked=!!v;else el.value=v});
+REPS.center.ids.forEach(syncAddr);REPS.center.ids.forEach(syncType);
 regionsInit();
 
 function checks(){
   const it=[];
-  form.querySelectorAll('[required]').forEach(el=>{
+  form.querySelectorAll('[required]:not(:disabled)').forEach(el=>{
     let ok=el.type==='checkbox'?el.checked:el.value.trim()!=='';
     if(ok&&el.dataset.pattern)ok=new RegExp(el.dataset.pattern).test(el.value.trim());
     if(ok&&el.type==='email')ok=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(el.value.trim());
@@ -249,7 +299,7 @@ function progress(){
   const mn=$('#mNext');mn.hidden=false;
   if(miss.length){mn.classList.remove('ok');mn.href='#'+miss[0].dataset.s;mn.textContent='Заполнить: '+miss[0].querySelector('.nm').firstChild.textContent.replace(/^\d+\.\s*/,'')+' ›'}
   else{mn.classList.add('ok');mn.href='#go';mn.textContent='Готово к отправке ✓'}
-  const opt={s2:()=>rows('comp').length>0,s3:()=>REPS.center.ids.some(id=>{const s=sfx(id);return !!($('#t_addr'+s).value.trim()||(PHOTOS['siteMap'+s]||[]).length||(PHOTOS['facade'+s]||[]).length)}),s4:()=>REPS.showroom.ids.some(id=>{const s=sfx(id);return !!($('#h_area'+s).value||(PHOTOS['showroom'+s]||[]).length)}),s5:()=>rows('mkt').length>0,s6:()=>rows('cli').length>0,s7:()=>orderTotals()>0};
+  const opt={s2:()=>rows('comp').length>0,s3:()=>REPS.center.ids.some(id=>{const s=sfx(id);return !!($('#t_addr'+s).value.trim()||(!isOffice(id)&&((PHOTOS['siteMap'+s]||[]).length||(PHOTOS['facade'+s]||[]).length)))}),s4:()=>!eqIds().length||eqIds().some(id=>{const s=sfx(id);return !!($('#h_area'+s).value||(PHOTOS['showroom'+s]||[]).length)}),s5:()=>rows('mkt').length>0,s6:()=>rows('cli').length>0,s7:()=>orderTotals()>0};
   $$('.rail a[data-s]').forEach(a=>{
     const s=a.dataset.s, mine=it.filter(x=>x.sec===s), st=a.querySelector('.st');
     let done, txt;
@@ -273,8 +323,8 @@ function textSummary(o,od){
   p('\n2. ПРОДАЖИ ПО ГОДАМ (2024 / 2025 / 2026 по н.в.)');o._sales.forEach(r=>p(`- ${r.brand||'—'}: ${r.y24||0} / ${r.y25||0} / ${r.y26||0}`));
   p('\n3. БЛИЖАЙШИЕ БРЕНДЫ В ГОРОДЕ');(o._comp.length?o._comp:[{}]).forEach(r=>p(`- ${r.name||'—'}${r.addr?' — '+r.addr:''}`));
   const C=o._centers||[], SR=o._showrooms||[];
-  p(C.length>1?`\n4. ДИЛЕРСКИЕ ЦЕНТРЫ (${C.length})`:'\n4. ТЕРРИТОРИЯ ЦЕНТРА');C.forEach((c,i)=>{p(`${C.length>1?(i+1)+'. ':''}Адрес: ${c.addr||'—'}`);const ind=C.length>1?'   ':'';if(c.phone)p(`${ind}Телефон: ${c.phone}`);if(c.email)p(`${ind}E-mail: ${c.email}`);if(c.link)p(`${C.length>1?'   ':''}Карта: ${c.link}`)});
-  p(SR.length>1?`\n5. ОСНАЩЕНИЕ ЦЕНТРОВ (${SR.length})`:'\n5. ОСНАЩЕНИЕ ЦЕНТРА');SR.forEach((h,i)=>p(`${SR.length>1?(i+1)+'. ':''}Адрес: ${h.name||'—'}; площадь: ${h.area||'—'} м²; постов: ${h.zones||'—'}; выездной сервис: ${h.desk||'—'}`));
+  p(C.length>1?`\n4. ДИЛЕРСКИЕ ЦЕНТРЫ (${C.length})`:'\n4. ТЕРРИТОРИЯ ЦЕНТРА');C.forEach((c,i)=>{p(`${C.length>1?(i+1)+'. ':''}${c.type}, адрес: ${c.addr||'—'}`);const ind=C.length>1?'   ':'';if(c.phone)p(`${ind}Телефон: ${c.phone}`);if(c.email)p(`${ind}E-mail: ${c.email}`);if(c.link)p(`${C.length>1?'   ':''}Карта: ${c.link}`)});
+  p(SR.length>1?`\n5. ОСНАЩЕНИЕ ЦЕНТРОВ (${SR.length})`:'\n5. ОСНАЩЕНИЕ ЦЕНТРА');SR.forEach((h,i)=>p(`${SR.length>1?(i+1)+'. ':''}Адрес: ${h.name||'—'}; площадь: ${h.area||'—'} м²; постов: ${h.zones||'—'}; выездной сервис: ${h.desk||'—'}; учебный класс: ${h.cls||'—'}`));
   p('\n6. МАРКЕТИНГ');(o._mkt.length?o._mkt:[{}]).forEach(r=>p(`- ${r.year?r.year+', ':''}${r.city||'—'}: ${r.act||'—'}`));
   p('\n7. КЛЮЧЕВЫЕ КЛИЕНТЫ (компания / срок сотрудничества / марка, модель / тип ТС / 2025 / 2026)');(o._cli.length?o._cli:[{}]).forEach(r=>p(`- ${[r.name,r.term,r.model,r.type,r.y25,r.y26].map(x=>x||'—').join(' / ')}`));
   p(`\n8. ПЛАН ПРОДАЖ ${YEAR}`);const lines=od.filter(r=>r.q.some(Boolean));
@@ -287,8 +337,8 @@ function textSummary(o,od){
 /* ---------- files from AO «Romanov» templates ---------- */
 function photoMap(){
   const m={};(PHOTOS.compMap||[]).forEach((p,i)=>m['compMap'+i]=p);
-  REPS.center.ids.forEach((id,j)=>{const s=sfx(id),t=j?'_'+j:'';['siteMap','facade'].forEach(k=>(PHOTOS[k+s]||[]).forEach((p,i)=>m[k+i+t]=p))});
-  REPS.showroom.ids.forEach((id,j)=>{const s=sfx(id),t=j?'_'+j:'';(PHOTOS['showroom'+s]||[]).forEach((p,i)=>m['showroom'+i+t]=p)});
+  REPS.center.ids.forEach((id,j)=>{const s=sfx(id),t=j?'_'+j:'';if(isOffice(id))return;['siteMap','facade'].forEach(k=>(PHOTOS[k+s]||[]).forEach((p,i)=>m[k+i+t]=p))});
+  eqIds().forEach((id,j)=>{const s=sfx(id),t=j?'_'+j:'';(PHOTOS['showroom'+s]||[]).forEach((p,i)=>m['showroom'+i+t]=p)});
   return m}
 
 /* ---------- submit & downloads ---------- */
