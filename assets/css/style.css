@@ -476,3 +476,4 @@ footer.foot .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:
 @media (max-width:900px){.cm-wrap{grid-template-columns:1fr}.cm-map{height:340px}.cm-list{max-height:none}}
 .ex-row .drop,.ex-row .cm-local{min-height:165px;display:flex;flex-direction:column;justify-content:center;margin:0}   /* высота как у миниатюры примера */
 .cm-local{padding:14px 16px;border:1px dashed var(--yellow);border-radius:var(--r);background:var(--yellow-soft);font-size:14.5px}
+.result + .contact{margin:20px 0 0}

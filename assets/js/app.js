@@ -371,7 +371,9 @@ async function saveZip(){
   catch(e){console.error(e);toast('Не удалось собрать архив. Скачайте файлы по одному.',true)}
 }
 $('#dlP').onclick=()=>save('pptx');$('#dlPP').onclick=()=>save('planp');$('#dlZip').onclick=saveZip;
-$('#backEdit').onclick=()=>{$('#result').hidden=true;form.hidden=false;form.scrollIntoView()};
+/* блок «Помощь с анкетой» показывается и в форме, и под готовыми файлами — переносим его между ними */
+const contactBox=$('#contact'), contactHome=document.createComment('contact');contactBox.parentNode.insertBefore(contactHome,contactBox);
+$('#backEdit').onclick=()=>{contactHome.parentNode.insertBefore(contactBox,contactHome);$('#result').hidden=true;form.hidden=false;form.scrollIntoView()};
 
 form.addEventListener('submit',async e=>{
   e.preventDefault();
@@ -402,7 +404,7 @@ form.addEventListener('submit',async e=>{
   $('#dlP').disabled=!files.pptx;
   toast(errs.length?'Не удалось собрать файл ('+errs.join('; ')+'). Напишите нам: b.chestnov@baz.ru.':'',errs.length>0);
   btn.disabled=false;btn.textContent='Сформировать файлы';
-  form.hidden=true;$('#result').hidden=false;$('#result').scrollIntoView({block:'start'});
+  $('#result').after(contactBox);form.hidden=true;$('#result').hidden=false;$('#result').scrollIntoView({block:'start'});
 });
 })();
 
