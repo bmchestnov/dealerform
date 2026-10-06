@@ -175,11 +175,13 @@ function build(o,od,photos,meta){
      s.table(X0,CT,[CW*.4,CW*.2,CW*.2,CW*.2],['Бренд','2024','2025','2026 по н.в.'],part.length?part:[['','','','']],{align:['l','ctr','ctr','ctr'],boldFirst:true})});
   }
   /* 03 Ближайшие бренды в городе */
-  {const rows=(o._comp||[]).map(r=>[r.name,r.addr]);
+  {const rows=(o._comp||[]).map((r,i)=>o._compNum?[String(i+1),r.name,r.addr]:[r.name,r.addr]);   // с картой с сайта — номера как на отметках
    chunk(rows,7).forEach((part,k)=>{const s=add();frame(s,{num:'03',tag:'Конкуренты',title:'Ближайшие бренды в городе'+(k?' (продолжение)':''),hint:'Дилерские центры других грузовых брендов рядом с кандидатом.'},fm);
-     if(k===0){const map=photos.compMap0&&photos.compMap0.url, tw=map?R(6.9*IN):CW;
-       s.table(X0,CT,[tw*.4,tw*.6],['Название (бренд)','Адрес'],part.length?part:[['','']],{boldFirst:true});
+     if(k===0){const map=photos.compMap0&&photos.compMap0.url, tw=map?R((o._compNum?5.6:6.9)*IN):CW;   // карта с сайта шире: пропорции 900×597 под это окно
+       if(o._compNum)s.table(X0,CT,[tw*.1,tw*.35,tw*.55],['№','Название (бренд)','Адрес'],part.length?part:[['','','']],{align:['ctr','l','l'],boldFirst:true});
+       else s.table(X0,CT,[tw*.4,tw*.6],['Название (бренд)','Адрес'],part.length?part:[['','']],{boldFirst:true});
        if(map)photo(s,X0+tw+R(.3*IN),CT,CW-tw-R(.3*IN),CB-CT,'Расположение на карте других брендов',photos.compMap0)}
+     else if(o._compNum)s.table(X0,CT,[CW*.06,CW*.32,CW*.62],['№','Название (бренд)','Адрес'],part,{align:['ctr','l','l'],boldFirst:true});
      else s.table(X0,CT,[CW*.35,CW*.65],['Название (бренд)','Адрес'],part,{boldFirst:true})});
   }
   /* 04 Территория центра — one slide per dealer centre */

@@ -8,7 +8,7 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 /* ---------- repeatable tables ---------- */
 const TABLES={
   sales:{body:'#t_sales',start:3,cols:[['brand','text','Бренд'],['y24','number','2024'],['y25','number','2025'],['y26','number','2026 по н.в.']]},
-  comp:{body:'#t_comp',start:3,cols:[['name','text','Название (бренд)'],['addr','text','Адрес']]},
+  comp:{body:'#t_comp',start:3,cols:[['name','text','Название (бренд)'],['addr','text','Адрес']],hidden:['lat','lon','src']},   // координаты отметки на карте брендов
   mkt:{body:'#t_mkt',start:2,cols:[['year','number','Год'],['city','text','Город'],['act','text','Выставка, форум и т.д.']]},
   cli:{body:'#t_cli',start:3,cols:[['name','text','Компания'],['term','text','Срок сотрудничества'],['model','text','Марка / модель'],['type','text','Тип ТС'],['y25','number','2025'],['y26','number','2026 по н.в.']]}
 };
@@ -16,6 +16,7 @@ let rid=0;
 function addRow(key,v={}){
   const T=TABLES[key], tr=document.createElement('tr'), i=++rid; tr.dataset.t=key;
   tr.innerHTML=T.cols.map(([f,type,l],ci)=>`<td data-l="${esc(l)}"${type==='text'&&(T.cols.length<=2||ci===0)?' class="wide"':''}><input type="${type}" ${type==='number'?'min="0"':''} id="${key}_${f}_${i}" data-f="${f}" aria-label="${l}" placeholder="${type==='text'?esc(l):''}" value="${esc(v[f])}"></td>`).join('')+`<td class="act"><button type="button" class="btn-x" aria-label="Удалить строку">✕</button></td>`;
+  if(T.hidden)tr.querySelector('td').insertAdjacentHTML('beforeend',T.hidden.map(f=>`<input type="hidden" data-f="${f}" value="${esc(v[f])}">`).join(''));
   tr.querySelector('.btn-x').onclick=()=>{tr.remove();if(!$(T.body).children.length)addRow(key);changed()};
   $(T.body).appendChild(tr);
 }
@@ -312,6 +313,7 @@ function progress(){
 }
 let tm=null;
 function changed(){progress();clearTimeout(tm);tm=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(collect()));$('#saveNote').textContent='Черновик сохранен '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}catch(e){}},600)}
+window.BAZChanged=()=>changed();   // для конструктора карты брендов (compmap.js)
 form.addEventListener('input',e=>{const f=e.target.closest('.f,td,.check');if(f)f.classList.remove('invalid');e.target.classList.remove('invalid');const ow=e.target.closest('.order-wrap');if(ow)ow.classList.remove('invalid');changed()});
 progress();
 
@@ -389,10 +391,13 @@ form.addEventListener('submit',async e=>{
   files={};
   const errs=[];
   await new Promise(r=>setTimeout(r,30));
-  try{files.pptx={name:`Анкета кандидата — ${base}.pptx`,blob:new Blob([BAZDeck.build(Object.assign(o,{_regGroups:RMAP.fds.map(f=>({t:f.t,regions:f.regions.filter(n=>REG.has(n))}))}),od,Object.assign(photoMap(),{regMapPng:await renderRegMap()}),{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),assets:window.BAZ_DECK_ASSETS}).bytes])}}catch(err){console.error(err);errs.push('анкета: '+(err&&err.message||err))}
+  /* карта брендов, собранная на сайте, заменяет скриншот на слайде 03 */
+  const pm=photoMap();
+  if(window.BAZCompMap&&BAZCompMap.active()){try{const im=await BAZCompMap.image();if(im){pm.compMap0=im;o._compNum=true}}catch(err){console.error(err)}}
+  try{files.pptx={name:`Анкета кандидата — ${base}.pptx`,blob:new Blob([BAZDeck.build(Object.assign(o,{_regGroups:RMAP.fds.map(f=>({t:f.t,regions:f.regions.filter(n=>REG.has(n))}))}),od,Object.assign(pm,{regMapPng:await renderRegMap()}),{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),assets:window.BAZ_DECK_ASSETS}).bytes])}}catch(err){console.error(err);errs.push('анкета: '+(err&&err.message||err))}
   try{files.planp={name:`План продаж ${YEAR} — ${base}.pdf`,blob:new Blob([BAZPlanPdf.build(o,od,{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),assets:window.BAZ_PDF_ASSETS})],{type:'application/pdf'})}}catch(err){console.error(err);errs.push('план продаж (PDF): '+(err&&err.message||err))}
   const nm={p:`Анкета кандидата — ${base}.pptx`,pp:`План продаж ${YEAR} — ${base}.pdf`,c:`Чек-лист кандидата — ${base}.docx`};
-  try{files.docx={name:nm.c,blob:new Blob([BAZFill.checklist(o,od,photoMap(),LOGO_K,{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),files:[nm.c,nm.p,nm.pp],email:'b.chestnov@baz.ru',manager:'Честнов Борис Михайлович',phone:'+7 (981) 690-00-10'})])}}catch(err){console.error(err);errs.push('чек-лист: '+(err&&err.message||err))}
+  try{files.docx={name:nm.c,blob:new Blob([BAZFill.checklist(o,od,pm,LOGO_K,{year:YEAR,date:new Date().toLocaleDateString('ru-RU'),files:[nm.c,nm.p,nm.pp],email:'b.chestnov@baz.ru',manager:'Честнов Борис Михайлович',phone:'+7 (981) 690-00-10'})])}}catch(err){console.error(err);errs.push('чек-лист: '+(err&&err.message||err))}
   $('#fnP').textContent=files.pptx?files.pptx.name:'Анкета не собрана';
   $('#fnPP').textContent=files.planp?files.planp.name:'План продаж не собран';$('#dlPP').disabled=!files.planp;
   $('#fnC').textContent=files.docx?files.docx.name:'Чек-лист не собран';$('#dlC').disabled=!files.docx;
@@ -406,11 +411,12 @@ form.addEventListener('submit',async e=>{
 /* ---------- просмотр примера поверх анкеты ---------- */
 (function(){
   const lb=document.getElementById('lb'); if(!lb||!lb.showModal)return;   // без поддержки <dialog> ссылка просто откроет картинку
-  const img=lb.querySelector('img'), cap=lb.querySelector('.lb-cap');
+  const img=lb.querySelector('img'), cap=lb.querySelector('.lb-cap'), ttl=lb.querySelector('.lb-t');
+  window.openLB=(src,title,text,alt)=>{img.src=src;img.alt=alt||text||'';ttl.textContent=title||'';cap.textContent=text||'';lb.setAttribute('aria-label',title||'Просмотр');lb.showModal()};
   document.addEventListener('click',e=>{
     const a=e.target.closest('a[data-lb]'); if(!a)return;
     e.preventDefault(); const i=a.querySelector('img');
-    img.src=a.getAttribute('href'); img.alt=i?i.alt:''; cap.textContent=a.dataset.lb||''; lb.showModal();
+    window.openLB(a.getAttribute('href'),a.dataset.lbt||'Пример карты',a.dataset.lb||'',i?i.alt:'');
   });
   lb.querySelector('.lb-x').onclick=()=>lb.close();
   lb.addEventListener('click',e=>{if(e.target===lb)lb.close()});   // клик по затемнению закрывает

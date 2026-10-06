@@ -16,8 +16,8 @@
       ctx.fillStyle='#000'; ctx.fillRect(0,0,N,N);
       ctx.save(); ctx.translate(N/2,N/2); ctx.scale(Math.max(sx,.04),1);   // на ребре логотип не исчезает совсем
       ctx.drawImage(img,-w/2,-h/2,w,h); ctx.restore();
-      link.type='image/png'; link.href=cv.toDataURL('image/png');
+      try{link.type='image/png'; link.href=cv.toDataURL('image/png')}catch(e){clearInterval(timer)}   // с диска (file://) холст «грязный» — остается обычная иконка
     }
-    frame(); setInterval(frame,1000/FPS);
+    const timer=setInterval(frame,1000/FPS); frame();
   };
 })();

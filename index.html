@@ -169,7 +169,28 @@
       <div class="tbl-wrap"><table class="t"><thead><tr><th>Название (бренд)</th><th>Адрес</th><th class="act"></th></tr></thead><tbody id="t_comp"></tbody></table></div>
       <div class="tbl-foot"><button type="button" class="btn-ghost" data-add="comp">+ Добавить бренд</button><span class="hint">Укажите хотя бы один бренд<span class="req">*</span></span></div>
       <p class="dg-err" id="dg_comp" hidden>Название бренда не может состоять только из цифр.</p>
-      <div class="f photo-f"><span class="lbl">Расположение на карте других брендов</span><span class="hint">Скриншот карты с отметками дилерских центров других брендов. Пронумеруйте отметки так же, как бренды в таблице.</span><div class="ex-row"><div class="drop" data-photo="compMap" data-max="1"></div><a class="ex" href="assets/img/example-comp-map.svg" data-lb="Пример: пронумерованные отметки дилерских центров других брендов и легенда с номерами"><img src="assets/img/example-comp-map.svg" alt="Пример карты: пронумерованные отметки дилерских центров других брендов и список брендов с номерами" loading="lazy" width="1200" height="760"><span>Пример карты · открыть</span></a></div></div>
+      <div class="f cm-f"><span class="lbl">Расположение на карте других брендов</span>
+        <div class="cm-tabs" role="tablist" aria-label="Способ добавить карту"><button type="button" role="tab" data-cm="build" aria-selected="true">Отметить на карте</button><button type="button" role="tab" data-cm="upload" aria-selected="false">Загрузить свой скриншот</button></div>
+        <input type="hidden" id="cm_mode" name="cm_mode" value="build"><input type="hidden" id="cm_view" name="cm_view">
+        <div class="cm-pane" id="cmBuild">
+          <span class="hint">Нажмите «Найти адреса на карте» — сайт поставит пронумерованные отметки по адресам из таблицы. Неточную отметку перетащите, ненайденную поставьте кнопкой «Поставить» и щелчком по карте. Готовая карта с легендой попадет в анкету.</span>
+          <div class="ex-row" id="cmLocal" hidden><p class="cm-local">Сайт открыт с диска, а OpenStreetMap не отдает карту таким страницам. Конструктор карты заработает на опубликованном сайте. Пока можно загрузить свой скриншот на соседней вкладке.</p><a class="ex" href="assets/img/example-comp-map.svg" data-lbt="Пример карты" data-lb="Пример: пронумерованные отметки дилерских центров других брендов и легенда с номерами"><img src="assets/img/example-comp-map.svg" alt="Пример карты: пронумерованные отметки дилерских центров других брендов и список брендов с номерами" loading="lazy" width="1200" height="760"><span>Пример карты · открыть</span></a></div>
+          <div class="cm-wrap">
+            <div class="cm-map" id="cmMap" tabindex="0" aria-label="Карта: перетаскивайте, чтобы сдвинуть; колесо или кнопки плюс и минус меняют масштаб">
+              <div class="cm-tiles"></div><div class="cm-pins"></div>
+              <div class="cm-ctl"><button type="button" data-z="+" aria-label="Приблизить">+</button><button type="button" data-z="-" aria-label="Отдалить">−</button><button type="button" data-z="fit" aria-label="Показать все отметки" title="Показать все отметки"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 7V3h4M13 3h4v4M17 13v4h-4M7 17H3v-4"/></svg></button></div>
+              <div class="cm-attr">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">участники OpenStreetMap</a></div>
+            </div>
+            <div class="cm-side">
+              <div class="cm-tools"><button type="button" class="btn-ghost" id="cmFind">Найти адреса на карте</button><button type="button" class="btn-ghost" id="cmPreview">Посмотреть, как будет в анкете</button></div>
+              <p class="cm-status" id="cmStatus" role="status" aria-live="polite"></p>
+              <ol class="cm-list" id="cmList"></ol>
+              <a class="ex" href="assets/img/example-comp-map.svg" data-lbt="Пример карты" data-lb="Пример: пронумерованные отметки дилерских центров других брендов и легенда с номерами"><img src="assets/img/example-comp-map.svg" alt="Пример карты: пронумерованные отметки дилерских центров других брендов и список брендов с номерами" loading="lazy" width="1200" height="760"><span>Пример карты · открыть</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="cm-pane" id="cmUpload" hidden><span class="hint">Скриншот карты с отметками дилерских центров других брендов. Пронумеруйте отметки так же, как бренды в таблице.</span><div class="ex-row"><div class="drop" data-photo="compMap" data-max="1"></div><a class="ex" href="assets/img/example-comp-map.svg" data-lb="Пример: пронумерованные отметки дилерских центров других брендов и легенда с номерами"><img src="assets/img/example-comp-map.svg" alt="Пример карты: пронумерованные отметки дилерских центров других брендов и список брендов с номерами" loading="lazy" width="1200" height="760"><span>Пример карты · открыть</span></a></div></div>
+      </div>
     </fieldset>
 
     <fieldset id="s3">
@@ -281,5 +302,6 @@
 <script src="assets/js/carousel.js"></script>
 <script src="assets/js/favicon.js"></script>
 <script src="assets/js/app.js"></script>
+<script src="assets/js/compmap.js"></script>
 </body>
 </html>
