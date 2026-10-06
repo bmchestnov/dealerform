@@ -1,0 +1,34 @@
+# Выкладка сайта в Yandex Object Storage (бакет dealer-form) при каждом пуше в main.
+# Нужны секреты репозитория: YC_KEY_ID и YC_SECRET_KEY — статический ключ сервисного аккаунта с ролью storage.editor.
+name: Deploy to Yandex Object Storage
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency: deploy-yandex
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check secrets
+        env:
+          K: ${{ secrets.YC_KEY_ID }}
+          S: ${{ secrets.YC_SECRET_KEY }}
+        run: |
+          if [ -z "$K" ] || [ -z "$S" ]; then echo "::error::Добавьте секреты YC_KEY_ID и YC_SECRET_KEY в Settings → Secrets and variables → Actions"; exit 1; fi
+      - name: Sync site to bucket
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.YC_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.YC_SECRET_KEY }}
+          AWS_DEFAULT_REGION: ru-central1
+        run: |
+          aws s3 sync . s3://dealer-form \
+            --endpoint-url=https://storage.yandexcloud.net \
+            --delete \
+            --exclude ".git/*" --exclude ".github/*" --exclude ".gitignore" --exclude ".nojekyll" \
+            --exclude "README.md" --exclude "Иллюстрации/*" --exclude "*.OTF" --exclude "*.otf" \
+            --exclude "assets/img/icon-512.png" --exclude "assets/img/logo-baz-yellow.png"
+          # HTML всегда свежий, без долгого кэша в браузере
+          aws s3 cp index.html s3://dealer-form/index.html --endpoint-url=https://storage.yandexcloud.net --content-type "text/html; charset=utf-8" --cache-control "no-cache"
+          aws s3 cp 404.html s3://dealer-form/404.html --endpoint-url=https://storage.yandexcloud.net --content-type "text/html; charset=utf-8" --cache-control "no-cache"
