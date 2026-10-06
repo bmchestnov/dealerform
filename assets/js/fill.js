@@ -193,7 +193,7 @@ function checklist(o,od,photos,logo,meta){
     cell([para('Чек-лист кандидата',{b:true,sz:34,after:20,jc:'right'}),para(`в дилеры БАЗ · АО «Романов» · ${meta.date}`,{color:'5B5F62',sz:18,after:0,jc:'right'})],WT-2400)])],[2400,WT-2400],{noBorder:true});
   body+=para('',{border:'FFCD1C',after:120});
   body+=para([run(o.c_name,{b:true,sz:28}),run(`   ${o.c_city}`,{color:'5B5F62',sz:22})],{after:60});
-  body+=para(`Заполнено пунктов: ${filled} из ${items.length}. Обязательные пункты отмечены звёздочкой.`,{color:'5B5F62',sz:18,after:0});
+  body+=para(`Заполнено пунктов: ${filled} из ${items.length}. Обязательные пункты отмечены звездочкой.`,{color:'5B5F62',sz:18,after:0});
 
   body+=H('Данные компании');
   const comp=[['Наименование юрлица',o.c_name],['Город',o.c_city],['Регионы присутствия',o.regions],['ИНН',o.c_inn],['Контактное лицо',o.c_person],['Телефон',o.c_phone],['E-mail',o.c_email],['Сайт',o.c_site],...C.flatMap((c,j)=>{const n=mc?' '+(j+1):'';return [[`Адрес дилерского центра${n}`,c.addr],[`Телефон центра${n}`,c.phone],[`E-mail центра${n}`,c.email],[`Ссылка на карту${n}`,c.link]]}),...SR.map((h,j)=>[`Адрес центра (оснащение)${ms?' '+(j+1):''}`,h.name])];

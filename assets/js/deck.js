@@ -165,7 +165,7 @@ function build(o,od,photos,meta){
   }
   /* 02 Продажи по годам */
   {const rows=(o._sales||[]).map(r=>[r.brand,r.y24,r.y25,r.y26]);
-   chunk(rows,9).forEach((part,k)=>{const s=add();frame(s,{num:'02',tag:'Объём продаж',title:'Продажи по годам'+(k?' (продолжение)':''),hint:'Продажи новой техники по брендам, шт.'},fm);
+   chunk(rows,9).forEach((part,k)=>{const s=add();frame(s,{num:'02',tag:'Объем продаж',title:'Продажи по годам'+(k?' (продолжение)':''),hint:'Продажи новой техники по брендам, шт.'},fm);
      s.table(X0,CT,[CW*.4,CW*.2,CW*.2,CW*.2],['Бренд','2024','2025','2026 по н.в.'],part.length?part:[['','','','']],{align:['l','ctr','ctr','ctr'],boldFirst:true})});
   }
   /* 03 Ближайшие бренды в городе */

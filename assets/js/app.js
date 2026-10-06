@@ -171,7 +171,7 @@ const REPS={
   showroom:{box:'#showrooms',title:'Центр',ids:[],next:1,photos:['showroom'],
     html:s=>`<div class="grid"><div class="f full"><label for="h_name${s}">Адрес центра<span class="req">*</span></label><input type="text" id="h_name${s}" name="h_name${s}" required placeholder="Например: г. Сургут, ул. Индустриальная, 12"></div></div>
 <div class="grid c3"><div class="f"><label for="h_area${s}">Площадь, м²</label><input type="number" min="0" id="h_area${s}" name="h_area${s}"></div><div class="f"><label for="h_zones${s}">Количество станций</label><input type="number" min="0" id="h_zones${s}" name="h_zones${s}"></div><div class="f"><label for="h_desk${s}">Выездной сервис</label><select id="h_desk${s}" name="h_desk${s}"><option value="">Выберите</option><option>Есть</option><option>Нет</option></select></div></div>
-<div class="grid"><div class="f full"><span class="lbl">Фотографии центра</span><span class="hint">До трёх фото: сервисная зона, станции, оборудование.</span><div class="drop" data-photo="showroom${s}" data-max="3"></div></div></div>`}
+<div class="grid"><div class="f full"><span class="lbl">Фотографии центра</span><span class="hint">До трех фото: сервисная зона, станции, оборудование.</span><div class="drop" data-photo="showroom${s}" data-max="3"></div></div></div>`}
 };
 function relabel(kind){const R=REPS[kind];$$(`${R.box} .rep`).forEach((el,i)=>el.querySelector('.rep-head b').textContent=`${R.title} ${i+1}`)}
 function addRep(kind,id){
@@ -260,7 +260,7 @@ function progress(){
   orderTotals();
 }
 let tm=null;
-function changed(){progress();clearTimeout(tm);tm=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(collect()));$('#saveNote').textContent='Черновик сохранён '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}catch(e){}},600)}
+function changed(){progress();clearTimeout(tm);tm=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(collect()));$('#saveNote').textContent='Черновик сохранен '+new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}catch(e){}},600)}
 form.addEventListener('input',e=>{const f=e.target.closest('.f,td,.check');if(f)f.classList.remove('invalid');e.target.classList.remove('invalid');const ow=e.target.closest('.order-wrap');if(ow)ow.classList.remove('invalid');changed()});
 progress();
 
@@ -304,14 +304,14 @@ function download(blob,name){
   a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);
 }
 function save(kind){
-  const f=files[kind]; if(!f){toast('Файл не собран. Попробуйте сформировать файлы ещё раз.',true);return}
+  const f=files[kind]; if(!f){toast('Файл не собран. Попробуйте сформировать файлы еще раз.',true);return}
   try{download(f.blob,f.name);toast('Файл скачан: '+f.name+'. Он в папке «Загрузки».')}
   catch(e){toast('Не удалось скачать файл. Попробуйте скачать архив.',true)}
 }
 /* all files in one .zip */
 async function saveZip(){
   const list=['docx','pptx','planp'].map(k=>files[k]).filter(Boolean);
-  if(!list.length){toast('Файлы не собраны. Попробуйте сформировать файлы ещё раз.',true);return}
+  if(!list.length){toast('Файлы не собраны. Попробуйте сформировать файлы еще раз.',true);return}
   try{const z={};for(const f of list)z[f.name]=new Uint8Array(await f.blob.arrayBuffer());
     const name=`Заявка дилера — ${safe($('#c_name').value)}.zip`;download(BAZFill.zip(z),name);
     toast('Архив скачан: '+name+'. Он в папке «Загрузки».')}
