@@ -295,8 +295,11 @@ function progress(){
   markDigits();advUI();
   const it=checks(), ok=it.filter(x=>x.ok).length;
   const req=$$('.rail a[data-req]'), miss=req.filter(a=>it.some(x=>x.sec===a.dataset.s&&!x.ok));
-  $('#bar').style.width=((req.length-miss.length)/req.length*100)+'%';
-  $('#pct').textContent=`Обязательные блоки: ${req.length-miss.length} из ${req.length}`;
+  /* прогресс по блокам: одна черточка — один обязательный блок, процент = заполненные / все */
+  const dn=req.length-miss.length, pc=Math.round(dn/req.length*100);
+  $('#bar').innerHTML=req.map(a=>`<i class="${miss.includes(a)?'':'on'}" title="${esc(a.querySelector('.nm').firstChild.textContent.trim())}"></i>`).join('');
+  $('#pctBig').textContent=pc+'%';
+  $('#pct').innerHTML=`<b class="p-m">${pc}%</b><span class="p-d">Обязательные блоки: ${dn} из ${req.length}</span><span class="p-m"> · ${dn}/${req.length}</span>`;
   const m=$('#missing');
   if(miss.length){m.innerHTML='<b>Не заполнено:</b>'+miss.map(a=>`<a href="#${a.dataset.s}">${esc(a.querySelector('.nm').firstChild.textContent)}</a>`).join('');m.classList.remove('ok')}
   else{m.textContent='Все обязательные блоки заполнены';m.classList.add('ok')}
