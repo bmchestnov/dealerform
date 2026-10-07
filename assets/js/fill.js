@@ -137,7 +137,7 @@ function plan(pack,o,orderRows){
   sh=setCell(sh,'C5',`<is><t>${XE(o.c_name)}</t></is>`,'inlineStr');
   sh=setCell(sh,'K5',`<is><t>${XE(o.c_city)}</t></is>`,'inlineStr');
   orderRows.forEach((r,i)=>{const row=pack.rows[i];r.q.forEach((v,j)=>{if(v>0)sh=setCell(sh,COLS[j]+row,`<v>${v}</v>`)})});
-  const yes=o.adv_ready==='Да'||o.adv_ready==='Да, частично';
+  const yes=o.adv_ready==='Полностью'||o.adv_ready==='Частично';
   const lines=[['P47',`Готовность авансирования: ${o.adv_ready||'—'}`],['P48',yes?`Готовы авансировать: ${o.adv_qty||'—'} шт.`:''],['P49',yes?`Размер аванса: ${o.adv_pct||'—'}%`:'']];
   lines.forEach(([ref,t])=>{if(t)sh=setCell(sh,ref,`<is><t>${XE(t)}</t></is>`,'inlineStr')});
   f[pack.sheet]=sh;
@@ -158,7 +158,7 @@ function checklist(o,od,photos,logo,meta){
   const v=x=>x===undefined||x===null||String(x).trim()===''?'—':String(x);
   const OK='2F7D4F',MID='8A6D00',NO='8A8D90';
   const st=(k,txt)=>({k,txt});
-  const yes=o.adv_ready==='Да'||o.adv_ready==='Да, частично';
+  const yes=o.adv_ready==='Полностью'||o.adv_ready==='Частично';
   const planTot=od.reduce((s,r)=>s+r.q.reduce((a,b)=>a+b,0),0), models=od.filter(r=>r.q.some(Boolean)).length;
   const monthsTot=od[0]?od[0].q.map((_,j)=>od.reduce((s,r)=>s+r.q[j],0)):[];
   const C=o._centers&&o._centers.length?o._centers:[{}], SR=o._showrooms&&o._showrooms.length?o._showrooms:(o._centers&&o._centers.length?[]:[{}]), mc=C.length>1, ms=SR.length>1;

@@ -106,11 +106,12 @@ function build(o,od,meta){
     .forEach(([k,d],i)=>{text(k,M,fy+12+i*9.5,6.6,{b:true});text(d,M+22,fy+12+i*9.5,6.6,{c:C.mut})});
   const ax=M+CW*.46, aw=CW*.54;
   rect(ax,fy-9,aw,58,C.surf,C.line,.6); rect(ax,fy-9,3,58,C.y);
-  const yes=o.adv_ready==='Да'||o.adv_ready==='Да, частично';
+  const full=o.adv_ready==='Полностью', part=o.adv_ready==='Частично';
   text('Авансирование',ax+12,fy+3,6,{b:true,caps:true,sp:.6,c:C.mut});
   text(o.adv_ready||'—',ax+12,fy+17,10,{b:true});
-  if(yes){text(`Готовы авансировать: ${o.adv_qty||'—'} шт.`,ax+12,fy+30,7.5,{c:C.ink});text(`Размер аванса: ${o.adv_pct||'—'}%`,ax+12,fy+41,7.5,{c:C.ink})}
-  else text('Готовность внести аванс за технику БАЗ',ax+12,fy+30,7,{c:C.mut});
+  if(full||part){text(`Готовы авансировать: ${o.adv_qty||'—'} шт.`,ax+12,fy+30,7.5,{c:C.ink});text(`Размер аванса: ${full?100:(o.adv_pct||'—')}%`,ax+12,fy+41,7.5,{c:C.ink})}
+  else if(o.adv_ready==='Ваш вариант')wrap(o.adv_own||'—',aw-24,7.2).slice(0,3).forEach((l,i)=>text(l,ax+12,fy+30+i*9,7.2,{c:C.ink}));
+  else text('Вариант авансирования техники БАЗ',ax+12,fy+30,7,{c:C.mut});
   const sy=fy+74;
   text('Генеральный директор',M,sy,8,{b:true});
   line(M+110,sy+1,M+300,sy+1,C.ink,.5); text('(подпись / печать)',M+205,sy+10,6,{c:C.mut,al:'c'});

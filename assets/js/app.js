@@ -263,11 +263,13 @@ function checks(){
   it.push({el:$('#regMap'),ok:REG.size>0,sec:'sr',drop:true});
   const planTot=orderTotals();
   it.push({el:$('.order-wrap'),ok:planTot>0,sec:'s7',drop:true});
-  const ar=(form.querySelector('input[name=adv_ready]:checked')||{}).value||'', yes=ar==='Да'||ar==='Да, частично';
+  /* авансирование: «Полностью» — сколько машин; «Частично» — сколько машин и %; «Ваш вариант» — описание */
+  const ar=(form.querySelector('input[name=adv_ready]:checked')||{}).value||'', full=ar==='Полностью', part=ar==='Частично';
   it.push({el:$('#advReadyF'),ok:!!ar,sec:'s7',drop:true});
   const q=$('#adv_qty').value.trim(), qn=Number(q);
-  if(yes){
-  it.push({el:$('#adv_qty'),ok:q!==''&&Number.isInteger(qn)&&qn>0&&qn<=planTot,sec:'s7'});const pv=$('#adv_pct').value.trim(),pn=Number(pv);it.push({el:$('#adv_pct'),ok:pv!==''&&pn>=1&&pn<=100,sec:'s7'})}
+  if(full||part)it.push({el:$('#adv_qty'),ok:q!==''&&Number.isInteger(qn)&&qn>0&&qn<=planTot,sec:'s7'});
+  if(part){const pv=$('#adv_pct').value.trim(),pn=Number(pv);it.push({el:$('#adv_pct'),ok:pv!==''&&pn>=1&&pn<=99,sec:'s7'})}
+  if(ar==='Ваш вариант')it.push({el:$('#adv_own'),ok:$('#adv_own').value.trim()!=='',sec:'s7'});
     return it;
 }
 const digitsOnly=v=>{v=String(v||'').trim();return v!==''&&/^[\d\s.,+\-\/№#]+$/.test(v)};
@@ -280,8 +282,8 @@ function markDigits(){
 }
 form.addEventListener('change',e=>{const t=e.target;if(t.classList&&t.classList.contains('xr')&&t.checked){$$(`input.xr[name="${t.name}"]`).forEach(o=>{if(o!==t)o.checked=false});progress()}});
 function advUI(){
-  const ar=(form.querySelector('input[name=adv_ready]:checked')||{}).value||'', yes=ar==='Да'||ar==='Да, частично';
-  $('#advPctF').hidden=!yes;$('#advQtyF').hidden=!yes;
+  const ar=(form.querySelector('input[name=adv_ready]:checked')||{}).value||'', yes=ar==='Полностью'||ar==='Частично';
+  $('#advQtyF').hidden=!yes;$('#advPctF').hidden=ar!=='Частично';$('#advOwnF').hidden=ar!=='Ваш вариант';
   const tot=OROWS.reduce((s,r)=>s+MONTHS.reduce((a,m,j)=>a+Math.max(0,parseInt($('#'+r.id+'_'+j).value)||0),0),0);
   const q=$('#adv_qty').value.trim(),qn=Number(q);
   const h=$('#advQtyHint');
@@ -333,7 +335,7 @@ function textSummary(o,od){
   p(`\n8. ПЛАН ПРОДАЖ ${YEAR}`);const lines=od.filter(r=>r.q.some(Boolean));
   if(!lines.length)p('- не заполнен');lines.forEach(r=>p(`- ${r.m}, ${r.d}: ${r.q.reduce((a,b)=>a+b,0)} шт. (${r.q.map((v,j)=>v?MONTHS[j]+' '+v:'').filter(Boolean).join(', ')})`));
   p(`Всего: ${od.reduce((s,r)=>s+r.q.reduce((a,b)=>a+b,0),0)} шт.`);
-  p(`Готовность авансирования: ${o.adv_ready||'—'}`);if(o.adv_ready==='Да'||o.adv_ready==='Да, частично'){p(`Готовы авансировать: ${o.adv_qty||'—'} шт.`);p(`Размер аванса: ${o.adv_pct||'—'}%`)}
+  p(`Вариант авансирования: ${o.adv_ready||'—'}`);if(o.adv_ready==='Полностью'||o.adv_ready==='Частично'){p(`Готовы авансировать: ${o.adv_qty||'—'} шт.`);p(`Размер аванса: ${o.adv_ready==='Полностью'?100:(o.adv_pct||'—')}%`)}if(o.adv_ready==='Ваш вариант')p(`Вариант кандидата: ${o.adv_own||'—'}`)
   return L.join('\n');
 }
 

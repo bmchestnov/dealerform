@@ -232,15 +232,15 @@
       <div class="advance" id="advBox">
         <div class="sub">Авансирование</div>
         <div class="grid">
-          <div class="f full" id="advReadyF"><span class="lbl">Готовы ли вы авансировать технику БАЗ?<span class="req">*</span></span>
-            <div class="opts" role="group" aria-label="Готовность авансирования">
-              <label><input type="checkbox" class="xr" name="adv_ready" value="Да"> Да</label>
-              <label><input type="checkbox" class="xr" name="adv_ready" value="Да, частично"> Да, частично</label>
-              <label><input type="checkbox" class="xr" name="adv_ready" value="Нет"> Нет</label>
-              <label><input type="checkbox" class="xr" name="adv_ready" value="Готовы обсудить"> Готовы обсудить</label>
+          <div class="f full" id="advReadyF"><span class="lbl">Какой оптимальный вариант авансирования техники БАЗ рассматриваете?<span class="req">*</span></span>
+            <div class="opts" role="group" aria-label="Вариант авансирования">
+              <label><input type="checkbox" class="xr" name="adv_ready" value="Полностью"> Полностью</label>
+              <label><input type="checkbox" class="xr" name="adv_ready" value="Частично"> Частично</label>
+              <label><input type="checkbox" class="xr" name="adv_ready" value="Ваш вариант"> Ваш вариант</label>
             </div></div>
           <div class="f" id="advQtyF" hidden><label for="adv_qty">Сколько машин готовы авансировать, шт.<span class="req">*</span></label><input type="number" min="0" step="1" inputmode="numeric" id="adv_qty" name="adv_qty"><span class="hint" id="advQtyHint"></span></div>
-          <div class="f" id="advPctF" hidden><label for="adv_pct">Размер аванса, %<span class="req">*</span></label><input type="number" min="1" max="100" step="1" inputmode="numeric" id="adv_pct" name="adv_pct"><span class="hint">От 1 до 100% стоимости машины.</span></div>
+          <div class="f" id="advPctF" hidden><label for="adv_pct">Размер аванса, %<span class="req">*</span></label><input type="number" min="1" max="99" step="1" inputmode="numeric" id="adv_pct" name="adv_pct"><span class="hint">От 1 до 99% стоимости машины.</span></div>
+          <div class="f full" id="advOwnF" hidden><label for="adv_own">Опишите ваш вариант авансирования<span class="req">*</span></label><textarea id="adv_own" name="adv_own" rows="3" placeholder="Например: аванс 30% за первые две машины, далее — по факту отгрузки"></textarea></div>
         </div>
       </div>
     </fieldset>
